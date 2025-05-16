@@ -4,6 +4,7 @@ public class PlayerAnimator : MonoBehaviour
 {
     Animator animator;
     public float wait;
+    float lerpDirX, lerpDirY;
 
     void Awake()
     {
@@ -28,8 +29,10 @@ public class PlayerAnimator : MonoBehaviour
     }
 
     public void SetMove(float x, float y) {
-        animator.SetFloat("dirX", x);
-        animator.SetFloat("dirY", y);
+        lerpDirX = Mathf.Lerp(lerpDirX, x, 8 * Time.deltaTime);
+        lerpDirY = Mathf.Lerp(lerpDirY, y, 8 * Time.deltaTime);
+        animator.SetFloat("dirX", lerpDirX);
+        animator.SetFloat("dirY", lerpDirY);
     }
 
     public void IsMoving(bool val) {
