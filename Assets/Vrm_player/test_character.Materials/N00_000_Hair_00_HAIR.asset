@@ -43,8 +43,8 @@ Material:
     - _RimStepSmooth: 0
     - _ShadowStep: 0.278
     - _ShadowStepSmooth: 0.078
-    - _SpecularStep: 0.163
-    - _SpecularStepSmooth: 0.164
+    - _SpecularStep: 0
+    - _SpecularStepSmooth: 0
     - _SrcBlend: 1
     - _VColBlendMode: 0
     - _ZWrite: 1
@@ -53,6 +53,6 @@ Material:
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _OutlineColor: {r: 0, g: 0, b: 0, a: 1}
     - _RimColor: {r: 1, g: 1, b: 1, a: 1}
-    - _SpecularColor: {r: 1, g: 1, b: 1, a: 1}
+    - _SpecularColor: {r: 1, g: 1, b: 1, a: 0.7019608}
   m_BuildTextureStacks: []
   m_AllowLocking: 1

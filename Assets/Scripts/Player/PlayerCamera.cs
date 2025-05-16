@@ -8,7 +8,7 @@ public class PlayerCamera : MonoBehaviour
     [SerializeField]
     Transform head;
     [SerializeField]
-    private float currentRotX;
+    private float currentRotX, currentRotY;
     [SerializeField]
     private float minVerticalAngle, maxVerticalAngle;
     void Start()
@@ -16,19 +16,21 @@ public class PlayerCamera : MonoBehaviour
         
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        MouseRotate();
-    }
-
-    void MouseRotate() {
+    public void MouseRotate(bool toTransform) {
         _mouseInput.x = Input.GetAxis("Mouse X") * mouseSensitivity;
         _mouseInput.y = Input.GetAxis("Mouse Y") * mouseSensitivity;
 
         currentRotX = Mathf.Clamp(currentRotX - _mouseInput.y, minVerticalAngle, maxVerticalAngle);
 
-        transform.Rotate(Vector3.up * _mouseInput.x);
-        head.localRotation = Quaternion.Euler(currentRotX, 0, 0);
+        if (toTransform) {
+            head.localRotation = Quaternion.Lerp(head.localRotation, Quaternion.Euler(currentRotX, 0, 0), 6 * Time.deltaTime);
+            transform.Rotate(Vector3.up * _mouseInput.x);
+
+            currentRotY = 0;
+        } else {
+            currentRotY = currentRotY + _mouseInput.x;
+            
+            head.localRotation = Quaternion.Euler(currentRotX, currentRotY, 0);
+        }
     }
 }

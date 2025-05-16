@@ -6,9 +6,12 @@ public class PlayerInput : MonoBehaviour
 {
     float h, v;
     Vector2 axisInput;
+    public bool isMoving;
     public Vector2 GetAxis() {
         h = Input.GetAxis("Horizontal");
         v = Input.GetAxis("Vertical");
+
+        isMoving = Mathf.Abs(h) + Mathf.Abs(v) != 0;
 
         axisInput = new Vector2(h, v);
 

@@ -12,6 +12,7 @@ public class PlayerMovement : MonoBehaviour
 
     [SerializeField]
     float jumpHeight = 2f;
+    public bool isJumping;
     [SerializeField]
     private float gravityMultiply = 1f;
     private Vector3 _velocity;
@@ -44,11 +45,17 @@ public class PlayerMovement : MonoBehaviour
 
     public void Jump() {
         _velocity.y = Mathf.Sqrt(jumpHeight * -2f * GetGravity());
+
+        isJumping = true;
     }
 
     public void ImplementGravity() {
         if (IsGround() && _velocity.y < 0) {
             _velocity.y = -2f;
+
+            if (isJumping) {
+                isJumping = false;
+            }
         }
 
         _velocity.y += GetGravity() * Time.deltaTime;

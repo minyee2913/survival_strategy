@@ -1,3 +1,6 @@
 [submodule "Assets/Utils"]
 	path = Assets/Utils
 	url = https://github.com/minyee2913/unityUtils
+[submodule "unityUtils"]
+	path = unityUtils
+	url = https://github.com/minyee2913/unityUtils
