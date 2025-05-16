@@ -2632,6 +2632,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 86052e1bb473978489886cd1a38ca75a, type: 3}
       insertIndex: -1
       addedObject: {fileID: 905633149}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 86052e1bb473978489886cd1a38ca75a, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 905633150}
     - targetCorrespondingSourceObject: {fileID: 9187354456457114545, guid: 86052e1bb473978489886cd1a38ca75a, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1020551081}
@@ -7707,6 +7710,21 @@ MonoBehaviour:
   currentRotY: 0
   minVerticalAngle: -50
   maxVerticalAngle: 50
+--- !u!114 &905633150
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 905633137}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 36ff84d623a8ff249aa2ee6f31887a06, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  MaxHealth: 100
+  Health: 100
+  isDeath: 0
 --- !u!4 &913214684 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8582451509887590953, guid: f8c0297a8d99e2747baeb5697c8ecb66, type: 3}
