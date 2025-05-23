@@ -6,6 +6,8 @@ using UnityEngine;
 public class PlayerMovement : MonoBehaviour
 {
     public float moveSpeed;
+    [HideInInspector]
+    public float slowRate, slowDown;
     CharacterController controller;
     Vector3 _moveDirection;
     #region Serialize Values
@@ -34,6 +36,11 @@ public class PlayerMovement : MonoBehaviour
         _moveDirection = transform.forward * moveDelta.y + transform.right * moveDelta.x;
         _moveDirection *= moveSpeed;
 
+        if (slowDown > 0)
+        {
+            _moveDirection *= slowRate;
+        }
+
         controller.Move(_moveDirection * Time.deltaTime);
     }
 
@@ -56,6 +63,11 @@ public class PlayerMovement : MonoBehaviour
             if (isJumping) {
                 isJumping = false;
             }
+        }
+
+        if (slowDown > 0)
+        {
+            slowDown -= Time.deltaTime;
         }
 
         _velocity.y += GetGravity() * Time.deltaTime;

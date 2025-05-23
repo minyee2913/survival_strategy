@@ -11,13 +11,18 @@ public class PlayerAnimator : MonoBehaviour
         animator = GetComponent<Animator>();
     }
 
-    public void WaitMotion(bool isMoving) {
-        if (isMoving) {
+    public void WaitMotion(bool isMoving)
+    {
+        if (isMoving)
+        {
             wait = 0;
-        } else {
+        }
+        else
+        {
             wait += Time.deltaTime;
 
-            if (wait >= 6) {
+            if (wait >= 6)
+            {
                 wait = -20;
 
                 int waitType = Random.Range(1, 4);
@@ -28,22 +33,31 @@ public class PlayerAnimator : MonoBehaviour
         }
     }
 
-    public void SetMove(float x, float y) {
+    public void SetMove(float x, float y)
+    {
         lerpDirX = Mathf.Lerp(lerpDirX, x, 8 * Time.deltaTime);
         lerpDirY = Mathf.Lerp(lerpDirY, y, 8 * Time.deltaTime);
         animator.SetFloat("dirX", lerpDirX);
         animator.SetFloat("dirY", lerpDirY);
     }
 
-    public void IsMoving(bool val) {
+    public void IsMoving(bool val)
+    {
         animator.SetBool("isMoving", val);
     }
 
-    public void SetJump(bool val) {
+    public void SetJump(bool val)
+    {
         animator.SetBool("isJumping", val);
     }
 
-        public void TriggerJump() {
+    public void TriggerJump()
+    {
         animator.SetTrigger("jump");
+    }
+
+    public void Trigger(string id)
+    {
+        animator.Play(id);
     }
 }
