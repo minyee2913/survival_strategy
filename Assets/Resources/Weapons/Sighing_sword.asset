@@ -1,0 +1,49 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 51981c73d971c1c44be9d4df114598f3, type: 3}
+  m_Name: Sighing_sword
+  m_EditorClassIdentifier: 
+  modelPrefab: {fileID: 6605338944930074855, guid: 7a06976e6156ca7468d1990550bf0014, type: 3}
+  modelOffset: {x: 0, y: 0.33, z: 0}
+  attackDamage: 3
+  Name: "\uD0C4\uC2DD\uAC80"
+  Id: sighing_sword
+  types:
+  - atkWaitTime: 0.5
+    atkCool: 0.55
+    slowTime: 0.7
+    shakePower: 1
+    shakeTime: 0.1
+    damageRate: 40
+    slowRate: 0.383
+    animationTrigger: slash1
+    range: slash1
+    dashPower: 0
+    dashTime: 0
+    dashDirection: 0
+    dashBeforeWait: 0
+  - atkWaitTime: 0.3
+    atkCool: 0.4
+    slowTime: 0.6
+    shakePower: 3
+    shakeTime: 0.1
+    damageRate: 60
+    slowRate: 0.603
+    animationTrigger: slash8
+    range: slash1
+    dashPower: 4
+    dashTime: 0.4
+    dashDirection: 0
+    dashBeforeWait: 1
+  targetMask:
+    serializedVersion: 2
+    m_Bits: 64

@@ -55,42 +55,5 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 3009688584852987321, guid: c3dd8268ae5173a499bf925b273145bd, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 3262946113399124402}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c3dd8268ae5173a499bf925b273145bd, type: 3}
---- !u!1 &7209031315351966319 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 3009688584852987321, guid: c3dd8268ae5173a499bf925b273145bd, type: 3}
-  m_PrefabInstance: {fileID: 5606717770030731222}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &3262946113399124402
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7209031315351966319}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 51981c73d971c1c44be9d4df114598f3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Name: "\uB0A1\uC740 \uAC80"
-  Id: normal_sword
-  atkWaitTime: 0.2
-  atkAfterTime: 0.3
-  atkCool: 0.8
-  slowTime: 0.5
-  shakePower: 0.8
-  shakeTime: 0.1
-  atkDamage: 3
-  slowRate: 0.847
-  animationTrigger:
-  - OneHand_Up_Attack_1
-  ranges:
-  - sword1
-  targetMask:
-    serializedVersion: 2
-    m_Bits: 64

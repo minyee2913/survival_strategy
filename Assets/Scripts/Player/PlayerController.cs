@@ -6,6 +6,7 @@ using UnityEngine;
 [RequireComponent(typeof(PlayerMovement))]
 public class PlayerController : MonoBehaviour
 {
+    public static PlayerController Local { get; private set; }
     [HideInInspector]
     public PlayerInput input;
     [HideInInspector]
@@ -16,6 +17,11 @@ public class PlayerController : MonoBehaviour
     public PlayerCamera cam;
     [HideInInspector]
     public PlayerBattle battle;
+    [HideInInspector]
+    public PlayerEquippment equippment;
+
+    public string state = "idle";
+
     void Awake()
     {
         input = GetComponent<PlayerInput>();
@@ -23,9 +29,12 @@ public class PlayerController : MonoBehaviour
         animator = GetComponent<PlayerAnimator>();
         cam = GetComponent<PlayerCamera>();
         battle = GetComponent<PlayerBattle>();
-        
+        equippment = GetComponent<PlayerEquippment>();
+
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
+
+        Local = this;
     }
 
     void Update()
@@ -35,12 +44,17 @@ public class PlayerController : MonoBehaviour
         animator.IsMoving(input.isMoving);
 
         cam.MouseRotate(input.isMoving);
-        animator.WaitMotion(input.isMoving);
+
+        if (state == "idle")
+        {
+            animator.WaitMotion(input.isMoving);
+        }
 
         if (input.GetJumpInput())
         {
             movement.JumpByInput();
             animator.TriggerJump();
+            animator.ResetWait();
         }
 
         animator.SetJump(movement.isJumping);
@@ -48,30 +62,35 @@ public class PlayerController : MonoBehaviour
         animator.SetMove(axis.x, axis.y);
 
         movement.ImplementGravity();
+        equippment.SyncHandOffset();
 
         //weapons
 
-        if (battle.weapon != null)
+        if (equippment.weapon != null)
         {
             if (Input.GetMouseButtonDown(0))
             {
-                StartCoroutine(battle.weapon.RightClickDown(this));
+                StartCoroutine(equippment.weapon.RightClickDown(this));
+                animator.ResetWait();
             }
             if (Input.GetMouseButtonUp(0))
             {
-                StartCoroutine(battle.weapon.RightClickUp(this));
+                StartCoroutine(equippment.weapon.RightClickUp(this));
+                animator.ResetWait();
             }
 
             if (Input.GetMouseButtonDown(1))
             {
-                StartCoroutine(battle.weapon.LeftClickDown(this));
+                StartCoroutine(equippment.weapon.LeftClickDown(this));
+                animator.ResetWait();
             }
             if (Input.GetMouseButtonUp(1))
             {
-                StartCoroutine(battle.weapon.LeftClickUp(this));
+                StartCoroutine(equippment.weapon.LeftClickUp(this));
+                animator.ResetWait();
             }
 
-            StartCoroutine(battle.weapon.WeaponUpdate(this));
+            StartCoroutine(equippment.weapon.WeaponUpdate(this));
         }
     }
 }

@@ -6,7 +6,6 @@ using UnityEngine;
 public class PlayerMovement : MonoBehaviour
 {
     public float moveSpeed;
-    [HideInInspector]
     public float slowRate, slowDown;
     CharacterController controller;
     Vector3 _moveDirection;
@@ -50,7 +49,13 @@ public class PlayerMovement : MonoBehaviour
         Jump();
     }
 
-    public void Jump() {
+    public void SetVelocity(Vector3 velocity)
+    {
+        _velocity = velocity;
+    }
+
+    public void Jump()
+    {
         _velocity.y = Mathf.Sqrt(jumpHeight * -2f * GetGravity());
 
         isJumping = true;

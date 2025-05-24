@@ -2,14 +2,10 @@ using UnityEngine;
 
 public class PlayerAnimator : MonoBehaviour
 {
+    [SerializeField]
     Animator animator;
     public float wait;
     float lerpDirX, lerpDirY;
-
-    void Awake()
-    {
-        animator = GetComponent<Animator>();
-    }
 
     public void WaitMotion(bool isMoving)
     {
@@ -31,6 +27,11 @@ public class PlayerAnimator : MonoBehaviour
                 animator.SetTrigger("waitAction");
             }
         }
+    }
+
+    public void ResetWait()
+    {
+        wait = 0;
     }
 
     public void SetMove(float x, float y)

@@ -1,3 +1,4 @@
+using minyee2913.Utils;
 using UnityEngine;
 
 public class PlayerCamera : MonoBehaviour
@@ -11,25 +12,32 @@ public class PlayerCamera : MonoBehaviour
     private float currentRotX, currentRotY;
     [SerializeField]
     private float minVerticalAngle, maxVerticalAngle;
+
+    public CamEffector mainCamera;
+
     void Start()
     {
         
     }
 
-    public void MouseRotate(bool toTransform) {
+    public void MouseRotate(bool toTransform)
+    {
         _mouseInput.x = Input.GetAxis("Mouse X") * mouseSensitivity;
         _mouseInput.y = Input.GetAxis("Mouse Y") * mouseSensitivity;
 
         currentRotX = Mathf.Clamp(currentRotX - _mouseInput.y, minVerticalAngle, maxVerticalAngle);
 
-        if (toTransform) {
+        if (toTransform)
+        {
             head.localRotation = Quaternion.Lerp(head.localRotation, Quaternion.Euler(currentRotX, 0, 0), 6 * Time.deltaTime);
             transform.Rotate(Vector3.up * _mouseInput.x);
 
             currentRotY = 0;
-        } else {
+        }
+        else
+        {
             currentRotY = currentRotY + _mouseInput.x;
-            
+
             head.localRotation = Quaternion.Euler(currentRotX, currentRotY, 0);
         }
     }
