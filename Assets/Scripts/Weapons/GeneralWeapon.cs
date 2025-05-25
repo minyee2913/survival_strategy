@@ -33,7 +33,6 @@ public struct GeneralAtkTypes
 [CreateAssetMenu(fileName = "General", menuName = "weapons/General", order = int.MaxValue)]
 public class GeneralWeapon : Weapon
 {
-    public string Name, Id;
     #region Serializes
     [SerializeField]
     List<GeneralAtkTypes> types;

@@ -1,10 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
+using minyee2913.Utils;
 using UnityEngine;
 
 [RequireComponent(typeof(CharacterController))]
 public class PlayerMovement : MonoBehaviour
 {
+    PlayerBattle battle;
     public float moveSpeed;
     public float slowRate, slowDown;
     CharacterController controller;
@@ -13,6 +15,8 @@ public class PlayerMovement : MonoBehaviour
 
     [SerializeField]
     float jumpHeight = 2f;
+    [SerializeField]
+    float rollPower, rollTime;
     public bool isJumping;
     [SerializeField]
     private float gravityMultiply = 1f;
@@ -25,10 +29,13 @@ public class PlayerMovement : MonoBehaviour
     private LayerMask groundLayer;
     #endregion
 
+    public Cooldown rollCool = new(3);
+
     private const float Gravity = -9.81f;
     void Awake()
     {
         controller = GetComponent<CharacterController>();
+        battle = gameObject.GetComponent<PlayerBattle>();
     }
 
     public void MoveByInput(Vector2 moveDelta) {
@@ -49,6 +56,29 @@ public class PlayerMovement : MonoBehaviour
         Jump();
     }
 
+    public bool Roll(Vector2 moveDelta)
+    {
+        if (rollCool.IsIn())
+            return false;
+
+        rollCool.Start();
+
+        StartCoroutine(roll(moveDelta));
+
+        return true;
+    }
+
+    IEnumerator roll(Vector2 moveDelta)
+    {
+        Vector3 delta = transform.forward * moveDelta.y + transform.right * moveDelta.x;
+
+        SetVelocity(delta * rollPower);
+
+        yield return new WaitForSeconds(rollTime);
+
+        SetVelocity(Vector3.zero);
+    }
+
     public void SetVelocity(Vector3 velocity)
     {
         _velocity = velocity;
@@ -65,8 +95,11 @@ public class PlayerMovement : MonoBehaviour
         if (IsGround() && _velocity.y < 0) {
             _velocity.y = -2f;
 
-            if (isJumping) {
+            if (isJumping)
+            {
                 isJumping = false;
+
+                battle.JumpKnockback();
             }
         }
 

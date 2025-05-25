@@ -10,9 +10,11 @@ GameObject:
   m_Component:
   - component: {fileID: 7370410570962602657}
   - component: {fileID: 7844108650092967236}
-  m_Layer: 0
+  - component: {fileID: 8754422132403275547}
+  - component: {fileID: 5306990183123474174}
+  m_Layer: 3
   m_Name: tomb
-  m_TagString: Untagged
+  m_TagString: pushable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -46,9 +48,58 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fa8f2016cbd2c9e46872170e1b65f52b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  weapon: {fileID: 11400000, guid: 43c725a3439e9034db4205869eac2c57, type: 2}
+  weaponSet: {fileID: 11400000, guid: b55f818b12f1735498d1e2608016c647, type: 2}
+  weapon: {fileID: 0}
   range: 4
   tombItem: {fileID: 6860303923257301383}
+--- !u!54 &8754422132403275547
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1362546541613041894}
+  serializedVersion: 4
+  m_Mass: 1
+  m_Drag: 3
+  m_AngularDrag: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 112
+  m_CollisionDetection: 0
+--- !u!65 &5306990183123474174
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1362546541613041894}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1, y: 0.261366, z: 2.3636475}
+  m_Center: {x: 0, y: 0.17746651, z: -0.1}
 --- !u!1 &7147670009363231667
 GameObject:
   m_ObjectHideFlags: 0
@@ -74,7 +125,7 @@ Transform:
   m_GameObject: {fileID: 7147670009363231667}
   serializedVersion: 2
   m_LocalRotation: {x: -0.70329684, y: -0.073305205, z: -0.073305175, w: 0.70329684}
-  m_LocalPosition: {x: 0.69400024, y: 0.09738061, z: -1.2900009}
+  m_LocalPosition: {x: 0.69400024, y: 0.09738061, z: -0.219}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -194,7 +245,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 977136844864435615, guid: 790cbaa43a4b19c4a964617119f8d796, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0.009578705
+      value: 1.0805798
       objectReference: {fileID: 0}
     - target: {fileID: 977136844864435615, guid: 790cbaa43a4b19c4a964617119f8d796, type: 3}
       propertyPath: m_LocalRotation.w

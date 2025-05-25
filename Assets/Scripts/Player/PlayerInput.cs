@@ -21,10 +21,17 @@ public class PlayerInput : MonoBehaviour
     public bool GetJumpInput() {
         return Input.GetKeyDown(KeyCode.Space);
     }
+    
+    public bool GetRollInput() {
+        return Input.GetKeyDown(KeyCode.LeftShift);
+    }
 
-    public int GetNumberInput() {
-        for (int i = 0; i < 9; i++) {
-            if (Input.GetKeyDown(KeyCode.Alpha0 + i)) {
+    public int GetNumberInput()
+    {
+        for (int i = 0; i < 9; i++)
+        {
+            if (Input.GetKeyDown(KeyCode.Alpha0 + i))
+            {
                 return i;
             }
         }

@@ -57,6 +57,11 @@ public class PlayerAnimator : MonoBehaviour
         animator.SetTrigger("jump");
     }
 
+    public void TriggerRoll()
+    {
+        animator.SetTrigger("roll");
+    }
+
     public void Trigger(string id)
     {
         animator.Play(id);

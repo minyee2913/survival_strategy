@@ -48,13 +48,15 @@ public class Interaction : Singleton<Interaction>
     {
         if (actions.Count > 0)
         {
-            float scroll = Input.GetAxis("Mouse ScrollWheel");
+            float scroll = Input.mouseScrollDelta.y;
 
             var arr = actions.ToArray();
 
             for (int i = 0; i < actions.Count; i++)
             {
                 var pair = arr[i];
+
+                pair.Value.transform.localPosition = new Vector3(0, i);
 
                 if (i == selection)
                 {
@@ -84,7 +86,7 @@ public class Interaction : Singleton<Interaction>
                     selection = 0;
                 }
             }
-            else if (scroll > 0)
+            else if (scroll < 0)
             {
                 selection++;
 

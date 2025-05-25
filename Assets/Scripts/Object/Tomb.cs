@@ -3,6 +3,8 @@ using UnityEngine;
 
 public class Tomb : MonoBehaviour
 {
+    [SerializeField]
+    WeaponSet weaponSet;
     public Weapon weapon;
     public float range;
     [SerializeField]
@@ -11,20 +13,37 @@ public class Tomb : MonoBehaviour
 
     bool pickingUp;
 
-    // Update is called once per frame
+    void Start()
+    {
+        if (weapon == null)
+        {
+            weapon = weaponSet.GetRandomWeapon();
+        }    
+    }
+
     void Update()
     {
-        if (weapon != null)
+        if (PlayerController.Local != null)
         {
             if (Vector3.Distance(PlayerController.Local.transform.position, transform.position) <= range && !pickingUp)
             {
-                Interaction.Instance.Set(OnInteract, "시체를 뒤적이기");
+                if (weapon != null)
+                {
+                    Interaction.Instance.Set(OnInteract, weapon.Name);
+                }
+                else
+                {
+                    Interaction.Instance.Set(OnInteract, "고인에게 돌려주기");
+                }
             }
             else
             {
                 Interaction.Instance.UnSet(OnInteract);
             }
+        }
 
+        if (weapon != null)
+        {
             if (weaponModel == null)
             {
                 weaponModel = Instantiate(weapon.modelPrefab);
@@ -62,8 +81,6 @@ public class Tomb : MonoBehaviour
         Weapon wep = weapon;
         weapon = null;
 
-        pickingUp = false;
-
         yield return new WaitForSeconds(0.1f);
 
         if (player.equippment.weapon != null)
@@ -72,5 +89,9 @@ public class Tomb : MonoBehaviour
         }
 
         player.equippment.Equip(wep);
+
+        yield return new WaitForSeconds(1.6f);
+
+        pickingUp = false;
     }
 }

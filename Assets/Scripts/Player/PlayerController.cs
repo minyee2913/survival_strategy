@@ -57,6 +57,20 @@ public class PlayerController : MonoBehaviour
             animator.ResetWait();
         }
 
+        if (input.GetRollInput())
+        {
+            Vector2 rollAxis = axis;
+            if (!input.isMoving)
+            {
+                rollAxis = -Vector2.up;
+            }
+
+            if (movement.Roll(rollAxis))
+            {
+                animator.TriggerRoll();
+            }
+        }
+
         animator.SetJump(movement.isJumping);
 
         animator.SetMove(axis.x, axis.y);

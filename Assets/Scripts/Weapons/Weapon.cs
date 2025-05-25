@@ -3,6 +3,7 @@ using UnityEngine;
 
 public abstract class Weapon : ScriptableObject
 {
+    public string Name, Id;
     public GameObject modelPrefab;
     public Vector3 modelOffset;
     public float attackDamage;
