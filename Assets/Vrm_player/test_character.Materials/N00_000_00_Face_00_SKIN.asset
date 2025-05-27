@@ -156,8 +156,8 @@ Material:
     - _BaseColor: {r: 0.8584906, g: 0.8584906, b: 0.8584906, a: 1}
     - _Color: {r: 0.8584906, g: 0.8584906, b: 0.8584906, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
-    - _HeadForward: {r: 0.03489959, g: 0, b: 0.99939084, a: 0}
-    - _HeadRight: {r: 0.99939084, g: 0, b: -0.03489959, a: 0}
+    - _HeadForward: {r: 0.4215397, g: -0.020015184, b: 0.9065891, a: 0}
+    - _HeadRight: {r: 0.9066655, g: 0.02715184, b: -0.42097577, a: 0}
     - _OutlineColor: {r: 0, g: 0, b: 0, a: 1}
     - _RendererColor: {r: 1, g: 1, b: 1, a: 1}
     - _RimColor: {r: 1, g: 1, b: 1, a: 1}

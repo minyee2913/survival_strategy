@@ -14,9 +14,6 @@ public class RollIndicator : MonoBehaviour
     void Update()
     {
         MatchDisplay();
-
-        Debug.Log(movement.rollCool.time);
-        Debug.Log(movement.rollCool.timeLeft());
     }
 
     void MatchDisplay()

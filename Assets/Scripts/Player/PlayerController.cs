@@ -34,6 +34,9 @@ public class PlayerController : MonoBehaviour
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
 
+        Application.targetFrameRate = 120;
+
+
         Local = this;
     }
 
