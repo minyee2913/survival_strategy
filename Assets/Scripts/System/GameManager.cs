@@ -9,10 +9,21 @@ public class GameManager : MonoBehaviour
 
     public float timer, maxTime;
     public string info = "경과 시간...";
+    public string state;
 
     void Start()
     {
+        StartGame();
+    }
+
+    public void StartGame()
+    {
         SoundManager.Instance.PlaySound("Dungeon Sneak Rogue Thief Music  (No Copyright) D&D   RPG   Fantasy Music", 4, 0.1f, 1, true);
+        state = "ready";
+
+        timer = 0;
+
+        info = "보스가 돌아올때까지...";
     }
 
     void Update()

@@ -62,6 +62,16 @@ public class PlayerAnimator : MonoBehaviour
         animator.SetTrigger("roll");
     }
 
+    public void TriggerHurt()
+    {
+        animator.SetTrigger("hurt");
+    }
+
+    public void SetDeath(bool death)
+    {
+        animator.SetBool("isDeath", death);
+    }
+
     public void Trigger(string id)
     {
         animator.Play(id);

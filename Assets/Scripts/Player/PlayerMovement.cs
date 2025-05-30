@@ -4,7 +4,7 @@ using minyee2913.Utils;
 using UnityEngine;
 
 [RequireComponent(typeof(CharacterController))]
-public class PlayerMovement : MonoBehaviour
+public class PlayerMovement : MonoBehaviour, Knockbackable
 {
     PlayerBattle battle;
     public float moveSpeed;
@@ -123,5 +123,27 @@ public class PlayerMovement : MonoBehaviour
     void OnDrawGizmos() {
         Gizmos.color = Color.yellow;
         Gizmos.DrawWireSphere(groundCheck + transform.position, groundDistance);
+    }
+
+    public bool GiveKnockback(float power, float height, int direction)
+    {
+        StartCoroutine(knockback(power, height, direction * -Vector3.right));
+
+        return true;
+    }
+    public bool GiveKnockback(float power, float height, Vector3 center)
+    {
+        StartCoroutine(knockback(power, height, center));
+
+        return true;
+    }
+
+    IEnumerator knockback(float power, float height, Vector3 dir)
+    {
+        _velocity += new Vector3(0, height) + dir * power;
+
+        yield return new WaitForSeconds(0.3f);
+
+        _velocity = Vector3.zero;
     }
 }

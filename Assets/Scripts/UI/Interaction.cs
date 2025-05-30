@@ -70,7 +70,6 @@ public class Interaction : Singleton<Interaction>
 
             if (Input.GetKeyDown(KeyCode.F))
             {
-                Debug.Log("F");
                 var selec = arr[selection];
                 selec.Key?.Invoke(player);
 

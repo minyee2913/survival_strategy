@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using minyee2913.Utils;
 using UnityEngine;
 
 [RequireComponent(typeof(PlayerInput))]
@@ -34,7 +35,15 @@ public class PlayerController : MonoBehaviour
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
 
+        Application.targetFrameRate = 120;
+
+
         Local = this;
+    }
+
+    void Start()
+    {
+        battle.health.OnDamage(OnDamage);
     }
 
     void Update()
@@ -78,6 +87,8 @@ public class PlayerController : MonoBehaviour
         movement.ImplementGravity();
         equippment.SyncHandOffset();
 
+        animator.SetDeath(battle.health.isDeath);
+
         //weapons
 
         if (equippment.weapon != null)
@@ -105,6 +116,14 @@ public class PlayerController : MonoBehaviour
             }
 
             StartCoroutine(equippment.weapon.WeaponUpdate(this));
+        }
+    }
+
+    void OnDamage(HealthObject.OnDamageEv ev)
+    {
+        if (!battle.health.isDeath)
+        {
+            animator.TriggerHurt();
         }
     }
 }

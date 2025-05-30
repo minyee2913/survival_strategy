@@ -39,7 +39,5 @@ public class PlayerBattle : MonoBehaviour
                 SoundManager.Instance.PlaySound("Effect/step_skeleton", 2, 0.3f, 1f, false);
             }
         }
-
-        Debug.Log(targets.Count);
     }
 }
