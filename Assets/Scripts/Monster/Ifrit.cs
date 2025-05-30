@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using minyee2913.Utils;
 using UnityEngine;
 
@@ -62,35 +63,76 @@ public class Ifrit : Monster
 
     void Follow()
     {
+        agent.stoppingDistance = 0;
         Chase(20);
 
         AnimatorStateInfo stateInfo = animator.GetCurrentAnimatorStateInfo(0);
 
-        if (stateInfo.IsName("Move Tree"))
+        if (stateInfo.IsName("Move Tree") && IsMoving())
         {
             float normalizedTime = stateInfo.normalizedTime;
-            int currentLoopCount = Mathf.FloorToInt(normalizedTime);
-            float fractional = normalizedTime - currentLoopCount;
+            int loopCount = Mathf.FloorToInt(normalizedTime);
+            float fractional = normalizedTime % 1f;
 
-            // 루프 완주 이벤트 (1.0, 2.0, 3.0 ...)
-            if (currentLoopCount > lastLoopCount)
+            if (loopCount > lastLoopCount)
             {
-                lastLoopCount = currentLoopCount;
-                halfTriggered = false; // 절반 이벤트 초기화
-                OnWalkCycleEnd();          // 완료 이벤트
+                lastLoopCount = loopCount;
+                halfTriggered = false;
+                OnWalkCycleEnd("half");
             }
 
-            // 절반 지점 이벤트 (0.5, 1.5, 2.5 ...)
-            if (!halfTriggered && fractional >= 0.5f)
+            if (!halfTriggered && fractional >= 0.5f && fractional < 0.75f) // 안전 범위 추가
             {
                 halfTriggered = true;
-                OnWalkCycleEnd();          // 절반 도달 이벤트
+                OnWalkCycleEnd("end");
             }
         }
     }
 
-    void OnWalkCycleEnd()
+
+    void OnWalkCycleEnd(string when)
     {
-        CamEffector.current.Shake(6, 0.3f);
+        CamEffector.current.Shake(4, 0.3f);
+
+        List<Transform> targets;
+
+        if (when == "half")
+        {
+            targets = range.GetHitInRange(range.GetRange("footLeft"), LayerMask.GetMask("player"));
+        }
+        else
+        {
+            targets = range.GetHitInRange(range.GetRange("footRight"), LayerMask.GetMask("player"));
+        }
+
+        float damage = stat.GetResult()["attackDamage"] * 1.2f;
+
+        foreach (Transform target in targets)
+        {
+            HealthObject hp = target.GetComponent<HealthObject>();
+            Knockbackable kn = target.GetComponent<Knockbackable>();
+
+            if (kn != null)
+            {
+                kn.GiveKnockback(8, 10, target.transform.position - transform.position);
+            }
+
+            if (hp != null)
+            {
+                hp.GetDamage((int)damage, health);
+            }
+        }
+
+        if (tick >= 5)
+        {
+            Attack();
+            tick = -Random.Range(1, 3);
+        }
+    }
+
+    void Attack()
+    {
+        animator.Play("Attack");
+        stopMove = 2f;
     }
 }
