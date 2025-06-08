@@ -84,6 +84,13 @@ public class PlayerMovement : MonoBehaviour, Knockbackable
         _velocity = velocity;
     }
 
+    public void Teleport(Vector3 pos)
+    {
+        controller.enabled = false;
+        transform.position = pos;
+        controller.enabled = true;
+    }
+
     public void Jump()
     {
         _velocity.y = Mathf.Sqrt(jumpHeight * -2f * GetGravity());

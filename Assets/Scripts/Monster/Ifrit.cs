@@ -47,7 +47,7 @@ public class Ifrit : Monster
             actionData = "idleMotion";
         }
 
-        if (tick > 3 && TargetIsIn(15))
+        if (tick > 3 && TargetIsIn(30))
         {
             tick = 0;
             state = "follow";
@@ -68,7 +68,7 @@ public class Ifrit : Monster
 
         AnimatorStateInfo stateInfo = animator.GetCurrentAnimatorStateInfo(0);
 
-        if (stateInfo.IsName("Move Tree") && IsMoving())
+        if (IsMoving())
         {
             float normalizedTime = stateInfo.normalizedTime;
             int loopCount = Mathf.FloorToInt(normalizedTime);
@@ -86,6 +86,17 @@ public class Ifrit : Monster
                 halfTriggered = true;
                 OnWalkCycleEnd("end");
             }
+        }
+        else
+        {
+            halfTriggered = false;
+            lastLoopCount = 0;
+        }
+
+        if (tick >= 5 && TargetIsIn(20))
+        {
+            Attack();
+            tick = -Random.Range(1, 3);
         }
     }
 
@@ -121,12 +132,6 @@ public class Ifrit : Monster
             {
                 hp.GetDamage((int)damage, health);
             }
-        }
-
-        if (tick >= 5)
-        {
-            Attack();
-            tick = -Random.Range(1, 3);
         }
     }
 

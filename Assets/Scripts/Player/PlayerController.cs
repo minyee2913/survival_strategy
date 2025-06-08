@@ -22,6 +22,7 @@ public class PlayerController : MonoBehaviour
     public PlayerEquippment equippment;
 
     public string state = "idle";
+    public bool NotInControl;
 
     void Awake()
     {
@@ -48,13 +49,25 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
+        if (NotInControl)
+        {
+            return;
+        }
         Vector2 axis = input.GetAxis();
-        movement.MoveByInput(axis);
-        animator.IsMoving(input.isMoving);
 
-        cam.MouseRotate(input.isMoving);
+        if (!battle.health.isDeath)
+        {
+            movement.MoveByInput(axis);
+            animator.IsMoving(input.isMoving);
+        }
+        else
+        {
+            animator.IsMoving(false);
+        }
 
-        if (state == "idle")
+        cam.MouseRotate(!animator.waiting);
+
+        if (state == "idle" && movement.slowDown <= 0)
         {
             animator.WaitMotion(input.isMoving);
         }

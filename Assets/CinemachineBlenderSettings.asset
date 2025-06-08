@@ -23,7 +23,7 @@ MonoBehaviour:
         m_Curve: []
         m_PreInfinity: 0
         m_PostInfinity: 0
-        m_RotationOrder: 0
+        m_RotationOrder: 4
   - From: Third Person Combat Camera
     To: Third Person Aim Camera
     Blend:
@@ -34,7 +34,7 @@ MonoBehaviour:
         m_Curve: []
         m_PreInfinity: 0
         m_PostInfinity: 0
-        m_RotationOrder: 0
+        m_RotationOrder: 4
   - From: defaultCamera
     To: readyCamera
     Blend:
@@ -45,7 +45,7 @@ MonoBehaviour:
         m_Curve: []
         m_PreInfinity: 0
         m_PostInfinity: 0
-        m_RotationOrder: 0
+        m_RotationOrder: 4
   - From: readyCamera
     To: defaultCamera
     Blend:
@@ -56,7 +56,7 @@ MonoBehaviour:
         m_Curve: []
         m_PreInfinity: 0
         m_PostInfinity: 0
-        m_RotationOrder: 0
+        m_RotationOrder: 4
   - From: readyCamera
     To: startCamera
     Blend:
@@ -67,4 +67,48 @@ MonoBehaviour:
         m_Curve: []
         m_PreInfinity: 0
         m_PostInfinity: 0
-        m_RotationOrder: 0
+        m_RotationOrder: 4
+  - From: '**ANY CAMERA**'
+    To: sleepingCamera
+    Blend:
+      Style: 0
+      Time: 0.8
+      CustomCurve:
+        serializedVersion: 2
+        m_Curve: []
+        m_PreInfinity: 0
+        m_PostInfinity: 0
+        m_RotationOrder: 4
+  - From: wakeCamera
+    To: lookAtCamera
+    Blend:
+      Style: 5
+      Time: 1
+      CustomCurve:
+        serializedVersion: 2
+        m_Curve: []
+        m_PreInfinity: 0
+        m_PostInfinity: 0
+        m_RotationOrder: 4
+  - From: lookAtCamera
+    To: showCam1
+    Blend:
+      Style: 0
+      Time: 5
+      CustomCurve:
+        serializedVersion: 2
+        m_Curve: []
+        m_PreInfinity: 0
+        m_PostInfinity: 0
+        m_RotationOrder: 4
+  - From: showCam1
+    To: showCam2
+    Blend:
+      Style: 1
+      Time: 10
+      CustomCurve:
+        serializedVersion: 2
+        m_Curve: []
+        m_PreInfinity: 0
+        m_PostInfinity: 0
+        m_RotationOrder: 4

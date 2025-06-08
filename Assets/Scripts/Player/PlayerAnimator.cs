@@ -1,21 +1,41 @@
 using UnityEngine;
+using VRM;
 
 public class PlayerAnimator : MonoBehaviour
 {
     [SerializeField]
     Animator animator;
     public float wait;
+    public bool waiting;
     float lerpDirX, lerpDirY;
+    public VRMBlendShapeProxy blendShape;
+    void Awake()
+    {
+        blendShape = GetComponent<VRMBlendShapeProxy>();
+
+        var smrList = GetComponentsInChildren<SkinnedMeshRenderer>();
+        foreach (var smr in smrList)
+        {
+            smr.updateWhenOffscreen = true;
+            smr.localBounds = new Bounds(Vector3.zero, Vector3.one * 5f);
+        }
+    }
 
     public void WaitMotion(bool isMoving)
     {
         if (isMoving)
         {
             wait = 0;
+            waiting = false;
         }
         else
         {
             wait += Time.deltaTime;
+
+            if (wait > 1)
+            {
+                waiting = true;
+            }
 
             if (wait >= 6)
             {
@@ -75,5 +95,11 @@ public class PlayerAnimator : MonoBehaviour
     public void Trigger(string id)
     {
         animator.Play(id);
+    }
+
+    public void CutMotion(int id)
+    {
+        animator.SetInteger("cutMotion", id);
+        animator.SetTrigger("nextCut");
     }
 }
