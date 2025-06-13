@@ -25,15 +25,19 @@ public class Tomb : MonoBehaviour
     {
         if (PlayerController.Local != null)
         {
-            if (Vector3.Distance(PlayerController.Local.transform.position, transform.position) <= range && !pickingUp)
+            if (Vector3.Distance(PlayerController.Local.transform.position, transform.position) <= range && !pickingUp && GameManager.Instance.day >= 2)
             {
                 if (weapon != null)
                 {
                     Interaction.Instance.Set(OnInteract, weapon.Name);
                 }
-                else
+                else if (PlayerController.Local.equippment.weapon != null)
                 {
                     Interaction.Instance.Set(OnInteract, "고인에게 돌려주기");
+                }
+                else
+                {
+                    Interaction.Instance.UnSet(OnInteract);
                 }
             }
             else

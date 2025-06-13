@@ -11,6 +11,10 @@ public class UIManager : Singleton<UIManager>
     Text itemName;
     [SerializeField]
     PlayerController player;
+    [SerializeField]
+    GameObject HUD, deathCam;
+    [SerializeField]
+    HealthIndicator indicator;
 
     void Update()
     {
@@ -20,5 +24,19 @@ public class UIManager : Singleton<UIManager>
         {
             itemName.text = player.equippment.weapon.Name;
         }
+
+        indicator.gameObject.SetActive(indicator.health.gameObject.activeSelf);
+    }
+
+    public void ShowDeath()
+    {
+        HUD.SetActive(false);
+        deathCam.SetActive(true);
+    }
+
+    public void HideDeath()
+    {
+        HUD.SetActive(true);
+        deathCam.SetActive(false);
     }
 }

@@ -10,8 +10,7 @@ public class HealthIndicator : MonoBehaviour
     [SerializeField]
     Text rateDisplay;
 
-    [SerializeField]
-    HealthObject health;
+    public HealthObject health;
     Color color;
 
     float rateBefore;
