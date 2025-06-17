@@ -9,7 +9,7 @@ public class PlayerMovement : MonoBehaviour, Knockbackable
     PlayerBattle battle;
     public float moveSpeed;
     public float slowRate, slowDown;
-    CharacterController controller;
+    public CharacterController controller;
     Vector3 _moveDirection;
     #region Serialize Values
 

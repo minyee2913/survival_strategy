@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using minyee2913.Utils;
 using TMPro;
 using Unity.Cinemachine;
@@ -21,14 +22,18 @@ public class GameManager : Singleton<GameManager>
     CinemachineCamera sleepCam, wakeCam, lookCam, showCam1, showCam2;
     [SerializeField]
     Image cover;
-    [SerializeField]
-    Text message;
+    public Text message;
     [SerializeField]
     TMP_Text timerText;
     [SerializeField]
     GameObject hud, explosion;
     [SerializeField]
     Ifrit ifrit;
+    [SerializeField]
+    Tomb tombPrefab;
+    Vector3 deathPos;
+    [SerializeField]
+    List<GameObject> frames = new();
 
 
     void Start()
@@ -101,27 +106,76 @@ public class GameManager : Singleton<GameManager>
 
     IEnumerator afterDeath()
     {
+        state = "";
+
+        deathPos = PlayerController.Local.transform.position;
+
         yield return new WaitForSeconds(6);
 
         SoundManager.Instance.StopTrack(4);
-        UIManager.Instance.HideDeath();
 
         day++;
 
         cover.gameObject.SetActive(true);
-
-        PlayerController.Local.battle.health.ResetToMax();
 
         ifrit.health.ResetToMax();
         ifrit.gameObject.SetActive(false);
 
         yield return new WaitForSeconds(1);
 
-        StartCoroutine(wakeUp(afterFirst, new string[]{
+        UIManager.Instance.HideDeath();
+
+        StartCoroutine(wakeUp2(AfterAfter, new string[]{
             "음므...",
             "어라?",
             "나는 분명히...",
         }));
+
+        Instantiate(tombPrefab, deathPos, Quaternion.identity);
+    }
+
+    void AfterAfter()
+    {
+        SoundManager.Instance.PlaySound("Dungeon Sneak Rogue Thief Music  (No Copyright) D&D   RPG   Fantasy Music", 4, 0.1f, 1, true);
+        state = "ready";
+
+        timer = 0;
+        maxTime = 60;
+
+        StartCoroutine(afterAfter());
+    }
+
+    IEnumerator afterAfter()
+    {
+        if (day == 2)
+        {
+            foreach (GameObject frame in frames)
+            {
+                frame.SetActive(true);
+                yield return new WaitForSeconds(1.5f);
+            }
+            frames.ForEach((v) =>
+            {
+                v.SetActive(false);
+            });
+
+            yield return new WaitForSeconds(1.5f);
+
+            message.text = "무섭지만...";
+
+            yield return new WaitForSeconds(1.5f);
+
+
+            message.text = "일단 이 해골들의 무기를 빌리자...";
+
+            yield return new WaitForSeconds(1.5f);
+
+            message.text = "";
+
+            timer = 0;
+            maxTime = 60;
+        }
+        yield break;
     }
 
     IEnumerator ShowExplosion()
@@ -146,7 +200,8 @@ public class GameManager : Singleton<GameManager>
     IEnumerator wakeUp(Action onEnd, string[] msgs)
     {
         PlayerController.Local.NotInControl = true;
-        PlayerController.Local.movement.Teleport(new Vector3(-12, 0.4f, -32));
+        PlayerController.Local.movement.Teleport(new Vector3(-12, 0.5f, -32.2f));
+        PlayerController.Local.movement.controller.enabled = false;
         PlayerController.Local.transform.localRotation = Quaternion.Euler(0, 0, 0);
         sleepCam.gameObject.SetActive(true);
 
@@ -235,6 +290,8 @@ public class GameManager : Singleton<GameManager>
 
         yield return new WaitForSeconds(1f);
 
+        PlayerController.Local.movement.controller.enabled = true;
+
         message.text = "";
 
         SoundManager.Instance.PlaySound("Effect/scary", 1, 0.3f, 1f, false);
@@ -268,7 +325,8 @@ public class GameManager : Singleton<GameManager>
     IEnumerator wakeUp2(Action onEnd, string[] msgs)
     {
         PlayerController.Local.NotInControl = true;
-        PlayerController.Local.movement.Teleport(new Vector3(-12, 0.4f, -32));
+        PlayerController.Local.movement.Teleport(new Vector3(-12, 0.5f, -32.2f));
+        PlayerController.Local.movement.controller.enabled = false;
         PlayerController.Local.transform.localRotation = Quaternion.Euler(0, 0, 0);
         sleepCam.gameObject.SetActive(true);
 
@@ -281,6 +339,8 @@ public class GameManager : Singleton<GameManager>
         PlayerController.Local.animator.CutMotion(1);
 
         yield return new WaitForSeconds(1);
+
+        PlayerController.Local.battle.health.ResetToMax();
 
         Color black = Color.black;
         for (int i = 0; i < 20; i++)
@@ -346,14 +406,7 @@ public class GameManager : Singleton<GameManager>
 
         PlayerController.Local.animator.blendShape.ImmediatelySetValue(BlendShapeKey.CreateFromPreset(BlendShapePreset.Sorrow), 0f);
 
-        time = 0;
-        while (time < 1f)
-        {
-            PlayerController.Local.animator.blendShape.ImmediatelySetValue(BlendShapeKey.CreateUnknown("Surprised"), time);
-
-            time += Time.deltaTime;
-            yield return null;
-        }
+        PlayerController.Local.movement.controller.enabled = true;
 
         yield return new WaitForSeconds(1f);
 
