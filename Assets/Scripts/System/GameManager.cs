@@ -45,6 +45,9 @@ public class GameManager : Singleton<GameManager>
     {
         day = 1;
 
+        PlayerController.Local.battle.stat.ResetStat();
+        PlayerController.Local.battle.health.ResetToMax();
+
         StartCoroutine(wakeUp(afterFirst, new string[]{
             "음므...",
             "잠들었던건가?",
@@ -131,6 +134,8 @@ public class GameManager : Singleton<GameManager>
             "나는 분명히...",
         }));
 
+        PlayerController.Local.equippment.Equip(null);
+
         Instantiate(tombPrefab, deathPos, Quaternion.identity);
     }
 
@@ -141,6 +146,8 @@ public class GameManager : Singleton<GameManager>
 
         timer = 0;
         maxTime = 60;
+
+        timerText.gameObject.SetActive(true);
 
         StartCoroutine(afterAfter());
     }
@@ -338,7 +345,7 @@ public class GameManager : Singleton<GameManager>
         PlayerController.Local.animator.blendShape.ImmediatelySetValue(BlendShapeKey.CreateFromPreset(BlendShapePreset.Sorrow), 0.6f);
         PlayerController.Local.animator.CutMotion(1);
 
-        yield return new WaitForSeconds(1);
+        yield return new WaitForSeconds(3);
 
         PlayerController.Local.battle.health.ResetToMax();
 
@@ -397,22 +404,21 @@ public class GameManager : Singleton<GameManager>
 
         yield return new WaitForSeconds(3f);
 
-        PlayerController.Local.animator.CutMotion(0);
-
-        wakeCam.gameObject.SetActive(false);
-        lookCam.gameObject.SetActive(true);
-
         message.text = msgs[2];
 
         PlayerController.Local.animator.blendShape.ImmediatelySetValue(BlendShapeKey.CreateFromPreset(BlendShapePreset.Sorrow), 0f);
 
-        PlayerController.Local.movement.controller.enabled = true;
+        PlayerController.Local.animator.CutMotion(0);
 
         yield return new WaitForSeconds(1f);
 
+        PlayerController.Local.movement.controller.enabled = true;
+
+        onEnd();
+
         message.text = "";
 
-        lookCam.gameObject.SetActive(false);
+        wakeCam.gameObject.SetActive(false);
 
         hud.SetActive(true);
 
@@ -420,11 +426,8 @@ public class GameManager : Singleton<GameManager>
         PlayerController.Local.animator.blendShape.ImmediatelySetValue(BlendShapeKey.CreateUnknown("Surprised"), 0);
 
         PlayerController.Local.NotInControl = false;
-
         PlayerController.Local.animator.CutMotion(0);
 
         yield return new WaitForSeconds(2f);
-
-        onEnd();
     }
 }

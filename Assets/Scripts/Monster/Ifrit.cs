@@ -139,5 +139,23 @@ public class Ifrit : Monster
     {
         animator.Play("Attack");
         stopMove = 2f;
+
+        float damage = stat.GetResult()["attackDamage"] * 2f;
+
+        foreach (Transform target in range.GetHitInRange(range.GetRange("kick"), LayerMask.GetMask("player")))
+        {
+            HealthObject hp = target.GetComponent<HealthObject>();
+            Knockbackable kn = target.GetComponent<Knockbackable>();
+
+            if (kn != null)
+            {
+                kn.GiveKnockback(5, 30, target.transform.position - transform.position);
+            }
+
+            if (hp != null)
+            {
+                hp.GetDamage((int)damage, health);
+            }
+        }
     }
 }

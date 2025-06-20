@@ -20,6 +20,7 @@ public class PlayerController : MonoBehaviour
     public PlayerBattle battle;
     [HideInInspector]
     public PlayerEquippment equippment;
+    public Transform lastTomb;
 
     public string state = "idle";
     public bool NotInControl;

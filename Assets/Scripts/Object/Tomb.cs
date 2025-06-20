@@ -1,4 +1,6 @@
+using System;
 using System.Collections;
+using minyee2913.Utils;
 using UnityEngine;
 
 public class Tomb : MonoBehaviour
@@ -96,6 +98,20 @@ public class Tomb : MonoBehaviour
         player.movement.slowRate = 0;
 
         player.animator.Trigger("Gathering");
+
+        if (player.lastTomb != transform)
+        {
+            player.battle.stat.AddBuf("quick" + DateTime.Now.Ticks, new Buf
+            {
+                key = "quickness",
+                mathType = StatMathType.Add,
+                value = 1
+            });
+
+            player.battle.stat.Calc("quickness");
+
+            player.lastTomb = transform;
+        }
 
         yield return new WaitForSeconds(0.3f);
 

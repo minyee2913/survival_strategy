@@ -8,7 +8,7 @@ public class UIManager : Singleton<UIManager>
     [SerializeField]
     GameObject item;
     [SerializeField]
-    Text itemName;
+    Text itemName, atkInfo, defInfo, quickInfo;
     [SerializeField]
     PlayerController player;
     [SerializeField]
@@ -26,6 +26,10 @@ public class UIManager : Singleton<UIManager>
         }
 
         indicator.gameObject.SetActive(indicator.health.gameObject.activeSelf);
+
+        atkInfo.text = "<color=red>공격력</color> " + player.battle.stat.GetResultValue("attackDamage").ToString() + "pt";
+        defInfo.text = "<color=cyan>방어력</color> " + Mathf.Round(player.battle.stat.GetResultValue("defense")).ToString() + "pt";
+        quickInfo.text = "<color=orange>순발력</color> " + player.battle.stat.GetResultValue("quickness").ToString() + "%";
     }
 
     public void ShowDeath()

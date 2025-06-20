@@ -10,6 +10,7 @@ public class PlayerMovement : MonoBehaviour, Knockbackable
     public float moveSpeed;
     public float slowRate, slowDown;
     public CharacterController controller;
+    StatController stat;
     Vector3 _moveDirection;
     #region Serialize Values
 
@@ -27,6 +28,7 @@ public class PlayerMovement : MonoBehaviour, Knockbackable
     private float groundDistance;
     [SerializeField]
     private LayerMask groundLayer;
+    public bool inRoll;
     #endregion
 
     public Cooldown rollCool = new(3);
@@ -35,7 +37,8 @@ public class PlayerMovement : MonoBehaviour, Knockbackable
     void Awake()
     {
         controller = GetComponent<CharacterController>();
-        battle = gameObject.GetComponent<PlayerBattle>();
+        stat = GetComponent<StatController>();
+        battle = GetComponent<PlayerBattle>();
     }
 
     public void MoveByInput(Vector2 moveDelta) {
@@ -72,11 +75,15 @@ public class PlayerMovement : MonoBehaviour, Knockbackable
     {
         Vector3 delta = transform.forward * moveDelta.y + transform.right * moveDelta.x;
 
+        inRoll = true;
+
         SetVelocity(delta * rollPower);
 
         yield return new WaitForSeconds(rollTime);
 
         SetVelocity(Vector3.zero);
+
+        inRoll = false;
     }
 
     public void SetVelocity(Vector3 velocity)
