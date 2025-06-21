@@ -33,7 +33,7 @@ public class GameManager : Singleton<GameManager>
     Tomb tombPrefab;
     Vector3 deathPos;
     [SerializeField]
-    List<GameObject> frames = new();
+    List<GameObject> frames = new(), frames2 = new();
 
 
     void Start()
@@ -128,11 +128,30 @@ public class GameManager : Singleton<GameManager>
 
         UIManager.Instance.HideDeath();
 
-        StartCoroutine(wakeUp2(AfterAfter, new string[]{
-            "음므...",
-            "어라?",
-            "나는 분명히...",
-        }));
+        if (day == 2)
+        {
+            StartCoroutine(wakeUp2(AfterAfter, new string[]{
+                "음므...",
+                "어라?",
+                "나는 분명히...",
+            }));
+        }
+        else if (day == 3)
+        {
+            StartCoroutine(wakeUp2(AfterAfter, new string[]{
+                "...",
+                "또...",
+                "다시 돌아왔어",
+            }));
+        }
+        else
+        {
+            StartCoroutine(wakeUp2(AfterAfter, new string[]{
+                "",
+                "",
+                "",
+            }));
+        }
 
         PlayerController.Local.equippment.Equip(null);
 
@@ -142,10 +161,10 @@ public class GameManager : Singleton<GameManager>
     void AfterAfter()
     {
         SoundManager.Instance.PlaySound("Dungeon Sneak Rogue Thief Music  (No Copyright) D&D   RPG   Fantasy Music", 4, 0.1f, 1, true);
-        state = "ready";
+        state = "none";
 
         timer = 0;
-        maxTime = 60;
+        maxTime = 0;
 
         timerText.gameObject.SetActive(true);
 
@@ -178,10 +197,46 @@ public class GameManager : Singleton<GameManager>
             yield return new WaitForSeconds(1.5f);
 
             message.text = "";
-
-            timer = 0;
-            maxTime = 60;
         }
+        else if (day == 3)
+        {
+            foreach (GameObject frame in frames2)
+            {
+                frame.SetActive(true);
+                yield return new WaitForSeconds(2f);
+            }
+            frames2.ForEach((v) =>
+            {
+                v.SetActive(false);
+            });
+
+            message.text = "일단 아까 쓰러졌던 곳에 가보자.";
+
+            yield return new WaitForSeconds(1.5f);
+
+            message.text = "";
+
+
+            // message.text = "이게 뭐야...";
+
+
+            // message.text = "이 해골 아까는 없었는데";
+
+            // message.text = "설마...";
+
+
+            // message.text = "이거 나야?";
+
+            // message.text = "여기 있는게 전부?";
+            // message.text = "...";
+            // message.text = "어떻게든 탈출하고 말겠어!";
+        }
+
+        state = "ready";
+
+        timer = 0;
+        maxTime = 60;
+
         yield break;
     }
 
