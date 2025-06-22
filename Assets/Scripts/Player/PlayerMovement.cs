@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using minyee2913.Utils;
 using UnityEngine;
 
@@ -31,7 +30,7 @@ public class PlayerMovement : MonoBehaviour, Knockbackable
     public bool inRoll;
     #endregion
 
-    public Cooldown rollCool = new(3);
+    public Cooldown rollCool = new(1);
 
     private const float Gravity = -9.81f;
     void Awake()
@@ -42,6 +41,9 @@ public class PlayerMovement : MonoBehaviour, Knockbackable
     }
 
     public void MoveByInput(Vector2 moveDelta) {
+        if (inRoll)
+            return;
+
         _moveDirection = transform.forward * moveDelta.y + transform.right * moveDelta.x;
         _moveDirection *= moveSpeed;
 

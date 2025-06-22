@@ -43,6 +43,7 @@ public class GeneralWeapon : Weapon
     #region forSystem
     float cooldown;
     int atkType;
+    Cooldown shoot = new(1);
     #endregion
 
     public override IEnumerator WeaponUpdate(PlayerController player)
@@ -52,17 +53,53 @@ public class GeneralWeapon : Weapon
             cooldown -= Time.deltaTime;
         }
 
+        if (player.charging && player.movement.inRoll)
+        {
+            player.charging = false;
+            player.animator.Trigger("shoot");
+        }
+
         yield break;
     }
 
     public override IEnumerator LeftClickDown(PlayerController player)
     {
-        yield return null;
+        if (shoot.IsIn())
+            yield break;
+        shoot.Start();
+        
+        player.charging = true;
+        player.animator.Trigger("charge");
+
+        SoundManager.Instance.PlaySound("Effect/charge", 1, 1f, 1f, false);
+
+        yield break;
     }
 
     public override IEnumerator LeftClickUp(PlayerController player)
     {
-        yield return null;
+        if (!player.charging)
+            yield break;
+
+        float rate = player.chargeTime;
+        if (rate > 1.5f)
+            rate = 1.5f;
+
+        player.charging = false;
+        player.animator.Trigger("shoot");
+
+        Projectile pro = Instantiate(player.battle.projectile, player.transform.position + new Vector3(0, 2f), Quaternion.identity);
+        pro.child = Instantiate(modelPrefab, pro.transform);
+        pro.child.transform.localPosition = Vector3.zero;
+
+        pro.Damage = (int)(player.battle.AttackDamage() * rate);
+        pro.attacker = player.battle.health;
+
+        SoundManager.Instance.PlaySound("Effect/shoot", 1, 1f, 1f, false);
+
+        player.equippment.Equip(null);
+
+        yield break;
     }
 
     IEnumerator DashAction(PlayerController player, GeneralAtkTypes typeAtk)
@@ -101,6 +138,8 @@ public class GeneralWeapon : Weapon
             yield break;
         }
 
+        SoundManager.Instance.PlaySound("Effect/fast_sword", 1, 0.3f, 1f, false);
+
         GeneralAtkTypes typeAtk = types[atkType];
 
         cooldown = typeAtk.atkCool;
@@ -116,10 +155,13 @@ public class GeneralWeapon : Weapon
 
         yield return new WaitForSeconds(typeAtk.atkWaitTime);
 
+        if (player.movement.inRoll)
+            yield break;
+
         if (!typeAtk.dashBeforeWait && typeAtk.dashTime > 0)
-        {
-            player.StartCoroutine(DashAction(player, typeAtk));
-        }
+            {
+                player.StartCoroutine(DashAction(player, typeAtk));
+            }
 
         var targets = player.battle.range.GetHitInRange(player.battle.range.GetRange(typeAtk.range), targetMask);
 
@@ -137,6 +179,20 @@ public class GeneralWeapon : Weapon
         if (targets.Count > 0)
         {
             CamEffector.current.Shake(typeAtk.shakePower, typeAtk.shakeTime);
+
+            SoundManager.Instance.PlaySound("Effect/sword1", 1, 0.3f, 1f, false);
+
+            if (Random.Range(0, 100f) <= 40)
+            {
+                if (Random.Range(0, 50f) <= 25)
+                {
+                    SoundManager.Instance.PlaySound("Effect/atk1", 2, 0.3f, 1f, false);
+                }
+                else
+                {
+                    SoundManager.Instance.PlaySound("Effect/atk2", 2, 0.3f, 1f, false);
+                }
+            }
         }
 
         if (types.Count > 1)

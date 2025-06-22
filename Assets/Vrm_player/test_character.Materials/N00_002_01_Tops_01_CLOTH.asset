@@ -11,8 +11,7 @@ Material:
   m_Shader: {fileID: 4800000, guid: 1eef153e0b0f8a74a9662ded7fcd7ce6, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
-  m_ValidKeywords:
-  - _UseAlphaClipping
+  m_ValidKeywords: []
   m_InvalidKeywords: []
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
@@ -58,19 +57,19 @@ Material:
     - _CelShadeSoftness: 0.05
     - _Cull: 2
     - _CullMode: 0
-    - _Cutoff: 0.851
+    - _Cutoff: 0
     - _DirectLightMultiplier: 1
     - _DstBlend: 0
     - _DstBlendAlpha: 0
     - _EmissionMulByBaseColor: 0
-    - _IndirectLightMultiplier: 1
+    - _IndirectLightMultiplier: 0
     - _IsFace: 0
     - _MainLightIgnoreCelShade: 0
     - _OcclusionRemapEnd: 1
     - _OcclusionRemapStart: 0
     - _OcclusionStrength: 1
     - _OutlineWidth: 0
-    - _OutlineZOffset: 0.0001
+    - _OutlineZOffset: 0
     - _OutlineZOffsetMaskRemapEnd: 1
     - _OutlineZOffsetMaskRemapStart: 0
     - _QueueOffset: 0
@@ -86,13 +85,13 @@ Material:
     - _SrcBlend: 1
     - _SrcBlendAlpha: 1
     - _Surface: 0
-    - _UseAlphaClipping: 1
+    - _UseAlphaClipping: 0
     - _UseEmission: 0
     - _UseOcclusion: 0
     - _VColBlendMode: 0
     - _ZWrite: 1
     m_Colors:
-    - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
+    - _BaseColor: {r: 1.0592737, g: 1.0592737, b: 1.0592737, a: 1}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _EmissionMapChannelMask: {r: 1, g: 1, b: 1, a: 0}

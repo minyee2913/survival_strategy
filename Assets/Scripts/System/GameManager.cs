@@ -5,6 +5,8 @@ using minyee2913.Utils;
 using TMPro;
 using Unity.Cinemachine;
 using UnityEngine;
+using UnityEngine.Rendering;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using VRM;
 
@@ -13,13 +15,13 @@ public class GameManager : Singleton<GameManager>
     [SerializeField]
     Text timerInfo;
 
-    public float timer, maxTime;
+    public float timer, maxTime, playTime;
     public string info = "경과 시간...";
     public string state;
-    public int day;
+    public int day, death;
 
     [SerializeField]
-    CinemachineCamera sleepCam, wakeCam, lookCam, showCam1, showCam2;
+    CinemachineCamera sleepCam, wakeCam, lookCam, showCam1, showCam2, daddddddCam;
     [SerializeField]
     Image cover;
     public Text message;
@@ -30,10 +32,14 @@ public class GameManager : Singleton<GameManager>
     [SerializeField]
     Ifrit ifrit;
     [SerializeField]
-    Tomb tombPrefab;
+    Tomb tombPrefab, tombSpecial;
     Vector3 deathPos;
     [SerializeField]
     List<GameObject> frames = new(), frames2 = new();
+    [SerializeField]
+    Volume glitch;
+
+    bool facedTomb;
 
 
     void Start()
@@ -43,7 +49,11 @@ public class GameManager : Singleton<GameManager>
 
     public void StartGame()
     {
+        playTime = 0;
+        facedTomb = false;
+        ifrit.gameObject.SetActive(false);
         day = 1;
+        death = 0;
 
         PlayerController.Local.battle.stat.ResetStat();
         PlayerController.Local.battle.health.ResetToMax();
@@ -58,6 +68,7 @@ public class GameManager : Singleton<GameManager>
     void Update()
     {
         timer += Time.deltaTime;
+        playTime += Time.deltaTime;
 
         float time = timer;
         if (maxTime > 0)
@@ -76,6 +87,11 @@ public class GameManager : Singleton<GameManager>
         timerText.transform.LookAt(PlayerController.Local.transform);
         timerText.transform.Rotate(0, 180, 0);
 
+        if (day == 3 && !facedTomb && Vector3.Distance(PlayerController.Local.transform.position, deathPos) <= 3)
+        {
+            StartCoroutine(afterFaced());
+        }
+
         if (state == "ready" && timer >= maxTime)
         {
             timerText.gameObject.SetActive(false);
@@ -92,11 +108,34 @@ public class GameManager : Singleton<GameManager>
 
             state = "fight";
 
-            SoundManager.Instance.PlaySound("Epic Undead Battle Music (No Copyright) D&D   RPG   Fantasy Music", 4, 0.1f, 1, true);
+
+            if (day < 3)
+            {
+                UIManager.Instance.ShowTitle("???");
+                SoundManager.Instance.PlaySound("Epic Undead Battle Music (No Copyright) D&D   RPG   Fantasy Music", 4, 0.1f, 1, true);
+            }
+            else
+            {
+                UIManager.Instance.ShowTitle("이프리트 - 불꽃을 휘감은 자");
+                SoundManager.Instance.PlaySound("Swimming With Sharks (Instrumental)", 4, 0.1f, 1, true);
+            }
         }
 
         if (state == "fight")
         {
+            if (ifrit.health.isDeath) {
+                if (day < 3)
+                {
+                    PlayerController.Local.battle.health.Kill();
+                }
+                else
+                {
+                    state = "win";
+
+                    StartCoroutine(afterWin());
+                }
+            }
+
             if (PlayerController.Local.battle.health.isDeath)
             {
                 UIManager.Instance.ShowDeath();
@@ -107,8 +146,141 @@ public class GameManager : Singleton<GameManager>
         }
     }
 
+    IEnumerator afterWin()
+    {
+        ifrit.gameObject.SetActive(false);
+        yield return new WaitForSeconds(1.5f);
+
+        message.text = "어..?";
+
+        yield return new WaitForSeconds(2f);
+
+        message.text = "끝난거야?";
+
+        yield return new WaitForSeconds(2f);
+
+        message.text = "진짜로 내가 이긴거야?!";
+
+        yield return new WaitForSeconds(3f);
+
+        PlayerController.Local.animator.Trigger("Win");
+
+        message.text = "야호!";
+
+        yield return new WaitForSeconds(2f);
+
+        message.text = "헤헤 별것도 아니였네";
+
+        yield return new WaitForSeconds(1.5f);
+
+        message.text = "이제 돌아갈 수 있겠...";
+
+        SoundManager.Instance.PlaySound("Effect/glitch", 1, 0.8f, 1);
+
+        yield return new WaitForSeconds(0.1f);
+
+        for (int i = 0; i <= 10; i++)
+        {
+            glitch.weight = i * 0.1f;
+
+            yield return new WaitForSeconds(0.05f);
+        }
+
+        glitch.weight = 1;
+
+        cover.gameObject.SetActive(true);
+        cover.color = Color.black;
+
+        message.text = "";
+
+        VictoryManager.death = death;
+        VictoryManager.playTime = playTime;
+
+        yield return new WaitForSeconds(3f);
+
+        SceneManager.LoadScene("Victory");
+    }
+
+    IEnumerator afterFaced()
+    {
+        facedTomb = true;
+
+        timer = 0;
+        maxTime = 40;
+
+        PlayerController.Local.transform.LookAt(deathPos);
+
+        PlayerController.Local.NotInControl = true;
+        PlayerController.Local.animator.ResetWait();
+        message.text = "이게 뭐야...";
+
+        yield return new WaitForSeconds(1.5f);
+
+        message.text = "이 해골 아까는 없었는데";
+        PlayerController.Local.animator.ResetWait();
+
+        yield return new WaitForSeconds(2f);
+
+        message.text = "설마...";
+
+        yield return new WaitForSeconds(2f);
+
+        SoundManager.Instance.PlaySound("Effect/surprised", 2, 0.3f, 1f, false);
+
+        daddddddCam.gameObject.SetActive(true);
+
+        CamEffector.current.ViewUp(-5, 0, 0.3f);
+
+        message.text = "이거 나야?";
+
+        PlayerController.Local.animator.blendShape.ImmediatelySetValue(BlendShapeKey.CreateUnknown("Surprised"), 1);
+
+        PlayerController.Local.animator.ResetWait();
+
+        yield return new WaitForSeconds(1.8f);
+
+        CamEffector.current.ViewUp(-10, 0, 0.3f);
+
+        message.text = "여기 있는게 전부?";
+
+        yield return new WaitForSeconds(2f);
+
+        SoundManager.Instance.PauseTrack(4);
+
+        cover.gameObject.SetActive(true);
+        cover.color = Color.black;
+
+        CamEffector.current.ViewOut(0f);
+
+        daddddddCam.gameObject.SetActive(false);
+
+        message.text = "...";
+
+        yield return new WaitForSeconds(1.5f);
+
+        message.text = "어떻게든 탈출하고 말겠어!";
+
+        PlayerController.Local.transform.rotation = Quaternion.Euler(PlayerController.Local.transform.rotation.x, PlayerController.Local.transform.rotation.y, 0);
+
+        yield return new WaitForSeconds(1.5f);
+
+        PlayerController.Local.animator.blendShape.ImmediatelySetValue(BlendShapeKey.CreateUnknown("Surprised"), 0);
+
+        SoundManager.Instance.ResumeTrack(4);
+
+        message.text = "";
+
+        cover.gameObject.SetActive(false);
+
+        state = "ready";
+
+        PlayerController.Local.NotInControl = false;
+    }
+
     IEnumerator afterDeath()
     {
+        death++;
+
         state = "";
 
         deathPos = PlayerController.Local.transform.position;
@@ -119,12 +291,28 @@ public class GameManager : Singleton<GameManager>
 
         day++;
 
+        SoundManager.Instance.PlaySound("Effect/glitch", 1, 0.8f, 1);
+
+        yield return new WaitForSeconds(0.1f);
+
+        for (int i = 0; i <= 10; i++)
+        {
+            glitch.weight = i * 0.1f;
+
+            yield return new WaitForSeconds(0.05f);
+        }
+
+        glitch.weight = 1;
+
         cover.gameObject.SetActive(true);
+        cover.color = Color.black;
 
         ifrit.health.ResetToMax();
         ifrit.gameObject.SetActive(false);
 
         yield return new WaitForSeconds(1);
+
+        glitch.weight = 0;
 
         UIManager.Instance.HideDeath();
 
@@ -155,12 +343,18 @@ public class GameManager : Singleton<GameManager>
 
         PlayerController.Local.equippment.Equip(null);
 
-        Instantiate(tombPrefab, deathPos, Quaternion.identity);
+        if (day <= 2)
+        {
+            Instantiate(tombPrefab, deathPos, Quaternion.identity);
+        }
+        else
+        {
+            Instantiate(tombSpecial, deathPos, Quaternion.identity);
+        }
     }
 
     void AfterAfter()
     {
-        SoundManager.Instance.PlaySound("Dungeon Sneak Rogue Thief Music  (No Copyright) D&D   RPG   Fantasy Music", 4, 0.1f, 1, true);
         state = "none";
 
         timer = 0;
@@ -178,12 +372,22 @@ public class GameManager : Singleton<GameManager>
             foreach (GameObject frame in frames)
             {
                 frame.SetActive(true);
-                yield return new WaitForSeconds(1.5f);
+
+                if (frame.name == "frame2")
+                    SoundManager.Instance.PlaySound("Effect/dirty", 1, 0.2f, 1);
+                if (frame.name == "frame3")
+                    SoundManager.Instance.PlaySound("Effect/police", 1, 0.3f, 1);
+                if (frame.name == "frame5")
+                    SoundManager.Instance.PlaySound("Effect/alarm", 1, 0.5f, 1);
+
+                yield return new WaitForSeconds(2f);
             }
             frames.ForEach((v) =>
             {
                 v.SetActive(false);
             });
+
+            SoundManager.Instance.StopTrack(1);
 
             yield return new WaitForSeconds(1.5f);
 
@@ -197,12 +401,27 @@ public class GameManager : Singleton<GameManager>
             yield return new WaitForSeconds(1.5f);
 
             message.text = "";
+
+            state = "ready";
+
+            timer = 0;
+            maxTime = 60;
+
+            SoundManager.Instance.PlaySound("Dungeon Sneak Rogue Thief Music  (No Copyright) D&D   RPG   Fantasy Music", 4, 0.1f, 1, true);
         }
         else if (day == 3)
         {
             foreach (GameObject frame in frames2)
             {
                 frame.SetActive(true);
+
+                if (frame.name == "frame2")
+                    SoundManager.Instance.PlaySound("Effect/train-crossing-105569", 1, 0.5f, 1);
+                if (frame.name == "frame3")
+                    SoundManager.Instance.PlaySound("Effect/clock", 1, 1f, 1);
+                if (frame.name == "frame5")
+                    SoundManager.Instance.PlaySound("Effect/Train2", 1, 0.8f, 1);
+
                 yield return new WaitForSeconds(2f);
             }
             frames2.ForEach((v) =>
@@ -210,32 +429,30 @@ public class GameManager : Singleton<GameManager>
                 v.SetActive(false);
             });
 
+            SoundManager.Instance.PlaySound("From The Shadows", 4, 0.1f, 1, true);
+
             message.text = "일단 아까 쓰러졌던 곳에 가보자.";
 
             yield return new WaitForSeconds(1.5f);
 
             message.text = "";
 
+            state = "finding";
 
-            // message.text = "이게 뭐야...";
+            timer = 0;
+            maxTime = 0;
+        }
+        else
+        {
+            state = "ready";
 
+            timer = 0;
+            maxTime = 60;
 
-            // message.text = "이 해골 아까는 없었는데";
-
-            // message.text = "설마...";
-
-
-            // message.text = "이거 나야?";
-
-            // message.text = "여기 있는게 전부?";
-            // message.text = "...";
-            // message.text = "어떻게든 탈출하고 말겠어!";
+            SoundManager.Instance.PlaySound("Thieving Rogue Sneak Battle Music (No Copyright) D&D   RPG   Fantasy Music", 4, 0.1f, 1, true);
         }
 
-        state = "ready";
-
-        timer = 0;
-        maxTime = 60;
+        UIManager.Instance.ShowTitle(day.ToString() + "회차_");
 
         yield break;
     }
@@ -276,6 +493,9 @@ public class GameManager : Singleton<GameManager>
         PlayerController.Local.animator.CutMotion(1);
 
         yield return new WaitForSeconds(1);
+
+        PlayerController.Local.animator.blendShape.ImmediatelySetValue(BlendShapeKey.CreateFromPreset(BlendShapePreset.Blink), 1);
+        PlayerController.Local.animator.blendShape.ImmediatelySetValue(BlendShapeKey.CreateFromPreset(BlendShapePreset.Sorrow), 0.6f);
 
         Color black = Color.black;
         for (int i = 0; i < 20; i++)
@@ -340,6 +560,8 @@ public class GameManager : Singleton<GameManager>
         message.text = msgs[2];
 
         PlayerController.Local.animator.blendShape.ImmediatelySetValue(BlendShapeKey.CreateFromPreset(BlendShapePreset.Sorrow), 0f);
+
+        SoundManager.Instance.PlaySound("Effect/surprised", 2, 0.3f, 1f, false);
 
         time = 0;
         while (time < 1f)

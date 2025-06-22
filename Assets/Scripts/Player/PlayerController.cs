@@ -23,7 +23,8 @@ public class PlayerController : MonoBehaviour
     public Transform lastTomb;
 
     public string state = "idle";
-    public bool NotInControl;
+    public bool NotInControl, charging;
+    public float chargeTime;
 
     void Awake()
     {
@@ -52,8 +53,25 @@ public class PlayerController : MonoBehaviour
     {
         if (NotInControl)
         {
+            animator.SetMove(0, 0);
             return;
         }
+
+        animator.PickSpeedMotion();
+
+        if (charging)
+        {
+            cam.shootCamera.gameObject.SetActive(true);
+            movement.slowDown = 0.3f;
+            movement.slowRate = 0;
+            chargeTime += Time.deltaTime;
+        }
+        else
+        {
+            cam.shootCamera.gameObject.SetActive(false);
+            chargeTime = 0;
+        }
+
         Vector2 axis = input.GetAxis();
 
         if (!battle.health.isDeath)
@@ -66,21 +84,22 @@ public class PlayerController : MonoBehaviour
             animator.IsMoving(false);
         }
 
-        cam.MouseRotate(!animator.waiting);
+        if (!battle.health.isDeath)
+            cam.MouseRotate(!animator.waiting);
 
         if (state == "idle" && movement.slowDown <= 0)
-        {
-            animator.WaitMotion(input.isMoving);
-        }
+            {
+                animator.WaitMotion(input.isMoving);
+            }
 
-        if (input.GetJumpInput())
+        if (input.GetJumpInput() && !battle.health.isDeath)
         {
             movement.JumpByInput();
             animator.TriggerJump();
             animator.ResetWait();
         }
 
-        if (input.GetRollInput())
+        if (input.GetRollInput() && !battle.health.isDeath)
         {
             Vector2 rollAxis = axis;
             if (!input.isMoving)
@@ -90,7 +109,7 @@ public class PlayerController : MonoBehaviour
 
             if (movement.Roll(rollAxis))
             {
-                animator.TriggerRoll();
+                animator.Trigger("Roll Tree");
             }
         }
 
@@ -105,7 +124,7 @@ public class PlayerController : MonoBehaviour
 
         //weapons
 
-        if (equippment.weapon != null)
+        if (equippment.weapon != null && !battle.health.isDeath)
         {
             if (Input.GetMouseButtonDown(0))
             {

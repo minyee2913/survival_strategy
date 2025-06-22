@@ -14,6 +14,7 @@ public class PlayerCamera : MonoBehaviour
     private float minVerticalAngle, maxVerticalAngle;
 
     public CamEffector mainCamera;
+    public CamEffector shootCamera;
 
     void Start()
     {

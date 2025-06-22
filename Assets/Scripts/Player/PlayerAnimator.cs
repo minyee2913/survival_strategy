@@ -1,3 +1,4 @@
+using minyee2913.Utils;
 using UnityEngine;
 using VRM;
 
@@ -5,12 +6,14 @@ public class PlayerAnimator : MonoBehaviour
 {
     [SerializeField]
     Animator animator;
+    StatController stat;
     public float wait;
     public bool waiting;
     float lerpDirX, lerpDirY;
     public VRMBlendShapeProxy blendShape;
     void Awake()
     {
+        stat = GetComponent<StatController>();
         blendShape = GetComponent<VRMBlendShapeProxy>();
 
         var smrList = GetComponentsInChildren<SkinnedMeshRenderer>();
@@ -19,6 +22,11 @@ public class PlayerAnimator : MonoBehaviour
             smr.updateWhenOffscreen = true;
             smr.localBounds = new Bounds(Vector3.zero, Vector3.one * 5f);
         }
+    }
+
+    public void PickSpeedMotion()
+    {
+        animator.SetFloat("pickSpeed", stat.GetResultValue("quickness") * 0.01f + 1);
     }
 
     public void WaitMotion(bool isMoving)

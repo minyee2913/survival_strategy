@@ -1,4 +1,5 @@
 
+using System.Collections;
 using minyee2913.Utils;
 using UnityEngine;
 using UnityEngine.UI;
@@ -15,6 +16,38 @@ public class UIManager : Singleton<UIManager>
     GameObject HUD, deathCam;
     [SerializeField]
     HealthIndicator indicator;
+    [SerializeField]
+    Text title;
+
+    public void ShowTitle(string txt)
+    {
+        StartCoroutine(showtitle(txt));
+    }
+
+    IEnumerator showtitle(string txt)
+    {
+        string str = "";
+        for (int i = 0; i < txt.Length; i++)
+        {
+            str += txt[i];
+
+            title.text = str;
+
+            SoundManager.Instance.PlaySound("Effect/typing", 1, 1);
+
+            yield return new WaitForSeconds(0.2f);
+        }
+
+        yield return new WaitForSeconds(1.5f);
+
+        title.text = "_";
+
+        SoundManager.Instance.PlaySound("Effect/typing", 1, 1);
+
+        yield return new WaitForSeconds(0.5f);
+
+        title.text = "";
+    }
 
     void Update()
     {

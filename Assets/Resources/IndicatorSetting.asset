@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1bb4994c494d33141810287c23eaea84, type: 3}
   m_Name: IndicatorSetting
   m_EditorClassIdentifier: 
-  font: {fileID: 11400000, guid: 957377e8535f18843b07692f739076da, type: 2}
+  font: {fileID: 11400000, guid: 3dfcaad16864ffe4e96e2641ee9a3200, type: 2}
   fontScale: 30
   textLifeTime: 1
   anim: 0
@@ -21,3 +21,4 @@ MonoBehaviour:
   sortingLayer: fieldUI
   sortOrder: 0
   useRealtime: 1
+  lookCamera: 1

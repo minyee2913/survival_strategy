@@ -28,7 +28,7 @@ public class Monster : MonoBehaviour, Knockbackable
 
     void onDamageFinal(HealthObject.OnDamageFinalEv ev)
     {
-        IndicatorManager.Instance.GenerateText(ev.Damage.ToString(), transform.position + new Vector3(Random.Range(-1f, 1f), 1), Color.white);
+        IndicatorManager.Instance.GenerateText(ev.Damage.ToString(), ev.attacker.transform.position + ev.attacker.transform.forward * 1.5f + new Vector3(Random.Range(-1f, 1f), 1), Color.white);
     }
 
     void Update()

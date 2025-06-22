@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using minyee2913.Utils;
 using UnityEngine;
@@ -64,7 +65,7 @@ public class Ifrit : Monster
     void Follow()
     {
         agent.stoppingDistance = 0;
-        Chase(20);
+        Chase(200);
 
         AnimatorStateInfo stateInfo = animator.GetCurrentAnimatorStateInfo(0);
 
@@ -95,7 +96,7 @@ public class Ifrit : Monster
 
         if (tick >= 5 && TargetIsIn(20))
         {
-            Attack();
+            StartCoroutine(Attack());
             tick = -Random.Range(1, 3);
         }
     }
@@ -135,10 +136,14 @@ public class Ifrit : Monster
         }
     }
 
-    void Attack()
+    IEnumerator Attack()
     {
         animator.Play("Attack");
         stopMove = 2f;
+
+        yield return new WaitForSeconds(1f);
+
+        SoundManager.Instance.PlaySound("Effect/explode", 3, 0.3f, 1f, false);
 
         float damage = stat.GetResult()["attackDamage"] * 2f;
 

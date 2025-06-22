@@ -84,6 +84,8 @@ public class Tomb : MonoBehaviour
     {
         if (GameManager.Instance.day <= 1)
         {
+            SoundManager.Instance.PlaySound("Effect/no", 2, 0.3f, 1f, false);
+
             GameManager.Instance.message.text = "으악... 이게 뭐야...";
 
             yield return new WaitForSeconds(1);
@@ -94,7 +96,9 @@ public class Tomb : MonoBehaviour
         }
         pickingUp = true;
 
-        player.movement.slowDown = 2f;
+        float quick = 1 - player.battle.stat.GetResultValue("quickness") * 0.01f;
+
+        player.movement.slowDown = 2f * quick;
         player.movement.slowRate = 0;
 
         player.animator.Trigger("Gathering");
@@ -113,12 +117,12 @@ public class Tomb : MonoBehaviour
             player.lastTomb = transform;
         }
 
-        yield return new WaitForSeconds(0.3f);
+        yield return new WaitForSeconds(0.3f * quick);
 
         Weapon wep = weapon;
         weapon = null;
 
-        yield return new WaitForSeconds(0.1f);
+        yield return new WaitForSeconds(0.1f * quick);
 
         if (player.equippment.weapon != null)
         {
@@ -127,7 +131,7 @@ public class Tomb : MonoBehaviour
 
         player.equippment.Equip(wep);
 
-        yield return new WaitForSeconds(1.6f);
+        yield return new WaitForSeconds(1.6f * quick);
 
         pickingUp = false;
     }
