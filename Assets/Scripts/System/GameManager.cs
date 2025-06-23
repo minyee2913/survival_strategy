@@ -163,6 +163,7 @@ public class GameManager : Singleton<GameManager>
 
     IEnumerator afterWin()
     {
+        SoundManager.Instance.StopTrack(4);
         ifrit.gameObject.SetActive(false);
         yield return new WaitForSeconds(1.5f);
 
