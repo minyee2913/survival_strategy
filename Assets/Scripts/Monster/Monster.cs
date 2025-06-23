@@ -1,5 +1,6 @@
 using System.Collections;
 using minyee2913.Utils;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -28,7 +29,9 @@ public class Monster : MonoBehaviour, Knockbackable
 
     void onDamageFinal(HealthObject.OnDamageFinalEv ev)
     {
-        IndicatorManager.Instance.GenerateText(ev.Damage.ToString(), ev.attacker.transform.position + ev.attacker.transform.forward * 1.5f + new Vector3(Random.Range(-1f, 1f), 1), Color.white);
+        if (ev.cause != HealthObject.Cause.Melee)
+            return;
+        IndicatorManager.Instance.GenerateText(ev.Damage.ToString(), ((transform.position - ev.attacker.transform.position) / 2) + ev.attacker.transform.position + new Vector3(Random.Range(-1f, 1f), 1), Color.white);
     }
 
     void Update()

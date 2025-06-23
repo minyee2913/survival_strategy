@@ -34,8 +34,10 @@ public class Projectile : MonoBehaviour
 
         if (mon != null)
         {
-            mon.health.GetDamage(Damage, attacker, HealthObject.Cause.Range);
+            int damage = mon.health.GetDamage(Damage, attacker, HealthObject.Cause.Range);
             SoundManager.Instance.PlaySound("Effect/shootHurt", 1, 0.4f, 1f, false);
+
+            IndicatorManager.Instance.GenerateText(damage.ToString(), transform.position, Color.white);
 
             if (hitEffect != null)
             {

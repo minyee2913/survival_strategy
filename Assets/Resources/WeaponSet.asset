@@ -19,3 +19,7 @@ MonoBehaviour:
     per: 40
   - weapon: {fileID: 11400000, guid: 3f73107c4dd48294db2f98f3b45f97ef, type: 2}
     per: 30
+  - weapon: {fileID: 11400000, guid: 64460cae8620d044ea0d51d62470bdb7, type: 2}
+    per: 25
+  - weapon: {fileID: 11400000, guid: 69797dfb680547846a105fdf4c1568bc, type: 2}
+    per: 25

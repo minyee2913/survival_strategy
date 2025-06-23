@@ -13,8 +13,7 @@ public class PlayerBattle : MonoBehaviour
     public StatController stat;
     public PlayerMovement movement;
     Transform beforeKick;
-    [SerializeField]
-    Volume dodgeVol;
+    public Volume dodgeVol, chargeVol;
     public Projectile projectile;
 
     void Awake()
@@ -136,7 +135,18 @@ public class PlayerBattle : MonoBehaviour
                         value = 0.2f
                     });
 
-                    stat.Calc("defense");
+                    float result = stat.Calc("defense");
+
+                    if (result >= 0.5f)
+                    {
+                        if (!UIManager.Instance.tipedDefense)
+                        {
+                            UIManager.Instance.tip.Open();
+                            UIManager.Instance.tip.defense.SetActive(true);
+
+                            UIManager.Instance.tipedDefense = true;
+                        }
+                    }
 
                     beforeKick = target;
                 }

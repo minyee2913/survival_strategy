@@ -12,11 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 51981c73d971c1c44be9d4df114598f3, type: 3}
   m_Name: Dung_sword
   m_EditorClassIdentifier: 
-  modelPrefab: {fileID: 1551566962929508929, guid: b93bd48778fcd994e9f33c65d69c047a, type: 3}
-  modelOffset: {x: 0, y: 0.4, z: 0}
-  attackDamage: 4
   Name: "\uB465\uAC80"
   Id: dung_sword
+  modelPrefab: {fileID: 1551566962929508929, guid: b93bd48778fcd994e9f33c65d69c047a, type: 3}
+  modelOffset: {x: 0, y: 0.4, z: 0}
+  attackDamage: 5
   types:
   - atkWaitTime: 0.8
     atkCool: 0.8
@@ -31,6 +31,7 @@ MonoBehaviour:
     dashTime: 0
     dashDirection: 4
     dashBeforeWait: 0
+    afterAtk: []
   - atkWaitTime: 0.5
     atkCool: 1.4
     slowTime: 1
@@ -39,11 +40,12 @@ MonoBehaviour:
     damageRate: 100
     slowRate: 0
     animationTrigger: slash5
-    range: melee_twohand
+    range: melee_twohandJump
     dashPower: 15
     dashTime: 0.3
     dashDirection: 4
     dashBeforeWait: 1
+    afterAtk: []
   targetMask:
     serializedVersion: 2
     m_Bits: 64

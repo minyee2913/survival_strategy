@@ -12,11 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 51981c73d971c1c44be9d4df114598f3, type: 3}
   m_Name: normal_sword
   m_EditorClassIdentifier: 
+  Name: "\uB0A1\uC740 \uAC80"
+  Id: normal_sword
   modelPrefab: {fileID: 7209031315351966319, guid: 38354f967e12a49488cb2094dadfdcc5, type: 3}
   modelOffset: {x: 0, y: 0.4, z: 0}
   attackDamage: 3
-  Name: "\uB0A1\uC740 \uAC80"
-  Id: normal_sword
   types:
   - atkWaitTime: 0.4
     atkCool: 0.8
@@ -31,6 +31,7 @@ MonoBehaviour:
     dashTime: 0.3
     dashDirection: 0
     dashBeforeWait: 1
+    afterAtk: []
   - atkWaitTime: 0.3
     atkCool: 0.5
     slowTime: 0.8
@@ -44,6 +45,7 @@ MonoBehaviour:
     dashTime: 0.2
     dashDirection: 0
     dashBeforeWait: 1
+    afterAtk: []
   targetMask:
     serializedVersion: 2
     m_Bits: 64

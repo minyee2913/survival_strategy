@@ -10,39 +10,39 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 51981c73d971c1c44be9d4df114598f3, type: 3}
-  m_Name: Sighing_sword
+  m_Name: savage_sword
   m_EditorClassIdentifier: 
-  Name: "\uD0C4\uC2DD\uAC80"
-  Id: sighing_sword
-  modelPrefab: {fileID: 6605338944930074855, guid: 7a06976e6156ca7468d1990550bf0014, type: 3}
-  modelOffset: {x: 0, y: 0.33, z: 0}
+  Name: "\uC57C\uB9CC\uAC80"
+  Id: savage_sword
+  modelPrefab: {fileID: 3014535142870448668, guid: 4f7fbafac4abdf24eb9a69f1ddfd5b21, type: 3}
+  modelOffset: {x: 0, y: 0.4, z: 0}
   attackDamage: 3
   types:
   - atkWaitTime: 0.5
-    atkCool: 0.55
-    slowTime: 0.7
+    atkCool: 0.8
+    slowTime: 1.2
     shakePower: 1
     shakeTime: 0.1
     damageRate: 60
-    slowRate: 0.383
-    animationTrigger: slash1
-    range: slash1
-    dashPower: 0
-    dashTime: 0
+    slowRate: 0
+    animationTrigger: slash3
+    range: attackH1
+    dashPower: 2
+    dashTime: 0.3
     dashDirection: 0
-    dashBeforeWait: 0
+    dashBeforeWait: 1
     afterAtk: []
   - atkWaitTime: 0.3
-    atkCool: 0.4
-    slowTime: 0.6
+    atkCool: 0.5
+    slowTime: 0.8
     shakePower: 3
     shakeTime: 0.1
-    damageRate: 60
-    slowRate: 0.603
-    animationTrigger: slash8
-    range: slash1
-    dashPower: 4
-    dashTime: 0.4
+    damageRate: 80
+    slowRate: 0
+    animationTrigger: HumanF@Attack1H01_L
+    range: attackH2
+    dashPower: 20
+    dashTime: 0.2
     dashDirection: 0
     dashBeforeWait: 1
     afterAtk: []

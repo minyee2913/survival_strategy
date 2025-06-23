@@ -1,0 +1,89 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 18f3caa74616fc842aabf90074f91be1, type: 3}
+  m_Name: AudioClipMap
+  m_EditorClassIdentifier: 
+  clipPaths:
+  - key: Dark Tension Music (No Copyright) D&D   RPG   Fantasy Music
+    clip: {fileID: 8300000, guid: d305c7d47c81b444c805a44137a01833, type: 3}
+  - key: Dungeon Sneak Rogue Thief Music  (No Copyright) D&D   RPG   Fantasy Music
+    clip: {fileID: 8300000, guid: d38358bb485f54b4a9e1dcac526be195, type: 3}
+  - key: Effect/alarm
+    clip: {fileID: 8300000, guid: aaa2924f809c8564390815453b34b665, type: 3}
+  - key: Effect/alarm-103201
+    clip: {fileID: 8300000, guid: 6103a929e78f3b84794864677377adbc, type: 3}
+  - key: Effect/atk1
+    clip: {fileID: 8300000, guid: 2b2521dabc9abe249ba2a6e126aaf4ce, type: 3}
+  - key: Effect/atk2
+    clip: {fileID: 8300000, guid: b2a76755bc0fb7e4b91e7eafeae3a613, type: 3}
+  - key: Effect/charge
+    clip: {fileID: 8300000, guid: c525a888f52165143a5d6702578a83f6, type: 3}
+  - key: Effect/clock
+    clip: {fileID: 8300000, guid: 1455a7dc19690de47a8b125bae4e2ff6, type: 3}
+  - key: Effect/dangerous
+    clip: {fileID: 8300000, guid: 2c1ee921adf9dad4abadc49d3ea8c9d8, type: 3}
+  - key: Effect/death
+    clip: {fileID: 8300000, guid: 368fa5dd25a295d4a9ef05a16bd5268c, type: 3}
+  - key: Effect/dirty
+    clip: {fileID: 8300000, guid: be82e26d5795b3a47bbfc9ecb43e36ec, type: 3}
+  - key: Effect/dodge
+    clip: {fileID: 8300000, guid: ebf65f94342c9554b833377c4efca804, type: 3}
+  - key: Effect/explode
+    clip: {fileID: 8300000, guid: 94e27258c32792e499ff4b63f4c5671c, type: 3}
+  - key: Effect/fast_sword
+    clip: {fileID: 8300000, guid: ec084c78417347b4485e9617f111baad, type: 3}
+  - key: Effect/glitch
+    clip: {fileID: 8300000, guid: bf477567baf0ad844bfa15b411f71635, type: 3}
+  - key: Effect/GUI_Notification
+    clip: {fileID: 8300000, guid: 48b8daf54bb7ef8439decec18ab12442, type: 3}
+  - key: Effect/hurt
+    clip: {fileID: 8300000, guid: 0c2adfc698d324b45a42c8eaae7be2b6, type: 3}
+  - key: Effect/no
+    clip: {fileID: 8300000, guid: 0a5b64a8979921b409f81b69c40d3ad4, type: 3}
+  - key: Effect/police
+    clip: {fileID: 8300000, guid: f551c8c1bd7faf7498e4dfbc08cfb3c7, type: 3}
+  - key: Effect/scary
+    clip: {fileID: 8300000, guid: 187db45c786357d46972265d6f28f7e6, type: 3}
+  - key: Effect/shield
+    clip: {fileID: 8300000, guid: 8200f770d28dc954795e6364633a84e8, type: 3}
+  - key: Effect/shoot
+    clip: {fileID: 8300000, guid: 39bb778f43fd85b4199bdc750cff48fb, type: 3}
+  - key: Effect/shootHurt
+    clip: {fileID: 8300000, guid: 8ee3d0b9c52738443a7379e28ccdf6a0, type: 3}
+  - key: Effect/step_skeleton
+    clip: {fileID: 8300000, guid: a3844f104148dab4aa351486177c3cc8, type: 3}
+  - key: Effect/surprised
+    clip: {fileID: 8300000, guid: f145d42658b37874cab37ee599a29d62, type: 3}
+  - key: Effect/sword1
+    clip: {fileID: 8300000, guid: e7ec0bce9d2ad3d4fbc36fe0285ff2fc, type: 3}
+  - key: Effect/train-crossing-105569
+    clip: {fileID: 8300000, guid: 669c02f8ce0edfb4c9244ff7a92ac656, type: 3}
+  - key: Effect/Train2
+    clip: {fileID: 8300000, guid: f8f7583f748f0334bbc0669b0521d963, type: 3}
+  - key: Epic Undead Battle Music (No Copyright) D&D   RPG   Fantasy Music
+    clip: {fileID: 8300000, guid: 0a94d8afeee5d5d4f92cf5d52e28377c, type: 3}
+  - key: From The Shadows
+    clip: {fileID: 8300000, guid: 6b0f97e44f3efb8429b7ff8f29d40488, type: 3}
+  - key: Perfect Dreams (Instrumental)
+    clip: {fileID: 8300000, guid: a58f681686e48dc40980a3e74c3f5f9a, type: 3}
+  - key: Swimming With Sharks (Instrumental)
+    clip: {fileID: 8300000, guid: 12eb4eb2f09018745a87329e61824281, type: 3}
+  - key: Thieving Rogue Sneak Battle Music (No Copyright) D&D   RPG   Fantasy Music
+    clip: {fileID: 8300000, guid: fb42306a3b87d214190103958c72db64, type: 3}
+  - key: typing
+    clip: {fileID: 8300000, guid: 61aa685a82a76ad448d9736542be8265, type: 3}
+  - key: UI/doorIn
+    clip: {fileID: 8300000, guid: 199a053bbcb0ed44fa9248da2857692e, type: 3}
+  - key: UI/doorOut
+    clip: {fileID: 8300000, guid: 756066694302b564eaff29d87e970eed, type: 3}
+  - key: UI/doorStart
+    clip: {fileID: 8300000, guid: c77e1bb2bee033a47b6d12a9305e085f, type: 3}

@@ -29,7 +29,7 @@ public class Tomb : MonoBehaviour
         {
             if (Vector3.Distance(PlayerController.Local.transform.position, transform.position) <= range && !pickingUp)
             {
-                if (GameManager.Instance.day >= 2)
+                if (!GameManager.ExistNow || GameManager.Instance.day >= 2)
                 {
                     if (weapon != null)
                     {
@@ -82,7 +82,7 @@ public class Tomb : MonoBehaviour
 
     IEnumerator PickUp(PlayerController player)
     {
-        if (GameManager.Instance.day <= 1)
+        if (GameManager.ExistNow && GameManager.Instance.day <= 1)
         {
             SoundManager.Instance.PlaySound("Effect/no", 2, 0.3f, 1f, false);
 
@@ -112,7 +112,18 @@ public class Tomb : MonoBehaviour
                 value = 1
             });
 
-            player.battle.stat.Calc("quickness");
+            float result = player.battle.stat.Calc("quickness");
+
+            if (result >= 1f)
+            {
+                if (!UIManager.Instance.tipedQuickness)
+                {
+                    UIManager.Instance.tip.Open();
+                    UIManager.Instance.tip.quickness.SetActive(true);
+
+                    UIManager.Instance.tipedQuickness = true;
+                }
+            }
 
             player.lastTomb = transform;
         }

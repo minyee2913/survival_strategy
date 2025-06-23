@@ -12,6 +12,8 @@ using VRM;
 
 public class GameManager : Singleton<GameManager>
 {
+    protected override bool UseDontDestroyOnLoad => false;
+
     [SerializeField]
     Text timerInfo;
 
@@ -107,6 +109,19 @@ public class GameManager : Singleton<GameManager>
             StartCoroutine(ShowExplosion());
 
             state = "fight";
+
+            if (day >= 2)
+            {
+                if (!UIManager.Instance.tipedAttack)
+                {
+                    UIManager.Instance.tip.Open();
+                    UIManager.Instance.tip.attack.SetActive(true);
+
+                    UIManager.Instance.tipedAttack = true;
+                }
+            }
+
+            CamEffector.current.Shake(8, 0.3f);
 
 
             if (day < 3)
@@ -227,6 +242,8 @@ public class GameManager : Singleton<GameManager>
 
         SoundManager.Instance.PlaySound("Effect/surprised", 2, 0.3f, 1f, false);
 
+        UIManager.Instance.ShowDeath();
+
         daddddddCam.gameObject.SetActive(true);
 
         CamEffector.current.ViewUp(-5, 0, 0.3f);
@@ -249,6 +266,8 @@ public class GameManager : Singleton<GameManager>
 
         cover.gameObject.SetActive(true);
         cover.color = Color.black;
+
+        UIManager.Instance.HideDeath();
 
         CamEffector.current.ViewOut(0f);
 
@@ -275,6 +294,11 @@ public class GameManager : Singleton<GameManager>
         state = "ready";
 
         PlayerController.Local.NotInControl = false;
+
+        yield return new WaitForSeconds(2f);
+
+        UIManager.Instance.tip.Open();
+        UIManager.Instance.tip.weapon.SetActive(true);
     }
 
     IEnumerator afterDeath()

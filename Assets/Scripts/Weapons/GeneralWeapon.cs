@@ -14,6 +14,13 @@ public enum GeneralWeaponDirection
 }
 
 [System.Serializable]
+public struct GeneralAtkAfterAtk
+{
+    public float atkWaitTime;
+    public float damageRate;
+}
+
+[System.Serializable]
 public struct GeneralAtkTypes
 {
     [Header("base")]
@@ -28,6 +35,7 @@ public struct GeneralAtkTypes
     public float dashTime;
     public GeneralWeaponDirection dashDirection;
     public bool dashBeforeWait;
+    public List<GeneralAtkAfterAtk> afterAtk;
 }
 
 [CreateAssetMenu(fileName = "General", menuName = "weapons/General", order = int.MaxValue)]
@@ -57,6 +65,7 @@ public class GeneralWeapon : Weapon
         {
             player.charging = false;
             player.animator.Trigger("shoot");
+            player.battle.chargeVol.weight = 0;
         }
 
         yield break;
@@ -70,6 +79,7 @@ public class GeneralWeapon : Weapon
         
         player.charging = true;
         player.animator.Trigger("charge");
+        player.battle.chargeVol.weight = 1;
 
         SoundManager.Instance.PlaySound("Effect/charge", 1, 1f, 1f, false);
 
@@ -84,6 +94,8 @@ public class GeneralWeapon : Weapon
         float rate = player.chargeTime;
         if (rate > 1.5f)
             rate = 1.5f;
+
+        player.battle.chargeVol.weight = 0;
 
         player.charging = false;
         player.animator.Trigger("shoot");
@@ -159,9 +171,9 @@ public class GeneralWeapon : Weapon
             yield break;
 
         if (!typeAtk.dashBeforeWait && typeAtk.dashTime > 0)
-            {
-                player.StartCoroutine(DashAction(player, typeAtk));
-            }
+        {
+            player.StartCoroutine(DashAction(player, typeAtk));
+        }
 
         var targets = player.battle.range.GetHitInRange(player.battle.range.GetRange(typeAtk.range), targetMask);
 
@@ -172,7 +184,7 @@ public class GeneralWeapon : Weapon
             if (hp != null)
             {
                 float damage = player.battle.AttackDamage() * typeAtk.damageRate * 0.01f;
-                hp.GetDamage((int)damage, player.battle.health);
+                hp.GetDamage((int)damage, player.battle.health, HealthObject.Cause.Melee);
             }
         }
 
@@ -202,6 +214,25 @@ public class GeneralWeapon : Weapon
             if (atkType >= types.Count)
             {
                 atkType = 0;
+            }
+        }
+
+        if (typeAtk.afterAtk != null && typeAtk.afterAtk.Count > 0)
+        {
+            foreach (GeneralAtkAfterAtk afterAtk in typeAtk.afterAtk)
+            {
+                yield return new WaitForSeconds(afterAtk.atkWaitTime);
+
+                foreach (Transform transform in targets)
+                {
+                    HealthObject hp = transform.GetComponent<HealthObject>();
+
+                    if (hp != null)
+                    {
+                        float damage = player.battle.AttackDamage() * afterAtk.damageRate * 0.01f;
+                        hp.GetDamage((int)damage, player.battle.health, HealthObject.Cause.Melee);
+                    }
+                }
             }
         }
     }
